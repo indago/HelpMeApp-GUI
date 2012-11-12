@@ -30,6 +30,7 @@ import com.indago.helpme.gui.dashboard.statemachine.STATES;
 import com.indago.helpme.gui.dashboard.views.HelpERButtonView;
 import com.indago.helpme.gui.dashboard.views.HelpERHintView;
 import com.indago.helpme.gui.dashboard.views.HelpERProgressView;
+import com.indago.helpme.gui.util.ImageUtility;
 
 public class HelpERDashboardActivity extends ATemplateActivity {
 	private static final String LOGTAG = HelpERDashboardActivity.class.getSimpleName();
@@ -59,6 +60,10 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 		String userID = extras.getString("USER_ID");
 		mUser = UserManager.getInstance().getUserById(userID);
 
+		if(mUser == null) {
+			throw new NullPointerException(LOGTAG + ": User with ID " + userID + " could not be retrieved from Extras-Bundle at onCreate()");
+		}
+
 		mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
 		mTopCover = (ImageView) findViewById(R.id.iv_topcover);
@@ -83,7 +88,7 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 
 		Drawable[] drawables = new Drawable[4];
 		drawables[0] = getResources().getDrawable(R.drawable.user_picture_background);
-		drawables[1] = getResources().getDrawable(R.drawable.help_ee_woman1);
+		drawables[1] = ImageUtility.retrieveDrawable(this, mUser.getName());
 		drawables[2] = getResources().getDrawable(R.drawable.user_picture_overlay);
 		drawables[3] = getResources().getDrawable(R.drawable.user_picture_border);
 
