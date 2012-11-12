@@ -141,7 +141,9 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 
 								mCDT.dismiss();
 								HistoryManager.getInstance().startNewTask(mUser);
-								startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERCallDetailsActivity.class));
+								Intent intent = new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERCallDetailsActivity.class);
+								intent.putExtra("USER_ID", mUser.getId());
+								startActivity(intent);
 
 								finish();
 							} else if(mStateMachine.getState() == STATES.DECLINED) {

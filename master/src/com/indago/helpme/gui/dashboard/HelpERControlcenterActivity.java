@@ -66,6 +66,8 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 		mTabHost.addTab(statisticsTab);
 		mTabHost.addTab(aboutTab);
+		
+		initMaps();
 	}
 
 	private void initMaps() {
