@@ -47,7 +47,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(LOGTAG, "... logged in!");
+		Log.d(LOGTAG, "onCreate()");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help_ee_dashboard);
 

@@ -19,8 +19,6 @@ import com.android.helpme.demo.interfaces.UserInterface;
 import com.android.helpme.demo.manager.HistoryManager;
 import com.android.helpme.demo.manager.MessageOrchestrator;
 import com.android.helpme.demo.manager.UserManager;
-import com.android.helpme.demo.overlay.HistoryItemnizedOverlay;
-import com.android.helpme.demo.overlay.HistoryOverlayItem;
 import com.android.helpme.demo.utils.Task;
 import com.android.helpme.demo.utils.ThreadPool;
 import com.android.helpme.demo.utils.User;
@@ -40,7 +38,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 	private TabHost mTabHost;
 
 	private List<Overlay> mapOverlays;
-	private HistoryItemnizedOverlay overlay;
+	private MyItemnizedOverlay overlay;
 	private MapController mapController;
 	private Drawable mMapsPin;
 
@@ -66,27 +64,21 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 		mTabHost.addTab(statisticsTab);
 		mTabHost.addTab(aboutTab);
-		
-		initMaps();
-
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
-		mHandler.post(HistoryManager.getInstance().loadHistory(getApplicationContext()));
 	}
 
 	private void initMaps() {
 		MapView mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 
-		mapOverlays = mapView.getOverlays();
-
-		mMapsPin = this.getResources().getDrawable(R.drawable.maps_pin_green);
-		mMapsPin.setBounds(0, 0, mMapsPin.getIntrinsicWidth(), mMapsPin.getIntrinsicHeight());
-
-		overlay = new HistoryItemnizedOverlay(mMapsPin, this);
-
-		mapController = mapView.getController();
-		mapOverlays.add(overlay);
+//		mapOverlays = mapView.getOverlays();
+//
+//		mMapsPin = this.getResources().getDrawable(R.drawable.maps_pin_green);
+//		mMapsPin.setBounds(0, 0, mMapsPin.getIntrinsicWidth(), mMapsPin.getIntrinsicHeight());
+//
+//		overlay = new MyItemnizedOverlay(mMapsPin, this);
+//
+//		mapController = mapView.getController();
+//		mapOverlays.add(overlay);
 	}
 
 	@Override
@@ -97,23 +89,39 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 	@Override
 	public void onBackPressed() {
-		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 		finish();
+		super.onBackPressed();
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onResume() {
+		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
+		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
+
+		mHandler.post(HistoryManager.getInstance().loadHistory(getApplicationContext()));
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
 
-		super.onDestroy();
+		super.onPause();
 	}
 
 	@Override
 	public void drawThis(final Object object) {
 		if(object instanceof User) {
+			/*
+			 * Start Call Details Activity
+			 */
 			mHandler.post(startHelpERDashboard((UserInterface) object));
 		} else if(object instanceof ArrayList<?>) {
+			/*
+			 * Add History
+			 */
 			ArrayList<JSONObject> arrayList = (ArrayList<JSONObject>) object;
 			mHandler.post(addMarker(arrayList));
 		}
@@ -124,6 +132,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 			@Override
 			public void run() {
+				HistoryManager.getInstance().startNewTask(user);
 				Intent intent = new Intent(getApplicationContext(), HelpERDashboardActivity.class);
 				intent.putExtra("USER_ID", user.getId());
 
@@ -143,7 +152,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 					snippet = "HISTORY SNIPPED";
 
-					HistoryOverlayItem overlayitem = new HistoryOverlayItem(position.getGeoPoint(), user.getId(), snippet, jsonObject);
+					OverlayItem overlayitem = new OverlayItem(position.getGeoPoint(), user.getName(), snippet);
 					overlay.addOverlay(overlayitem);
 				}
 				setZoomLevel();

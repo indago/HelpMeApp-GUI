@@ -11,16 +11,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:scaleType="fitCenter"
+        android:contentDescription="logo"
+        android:scaleType="center"
         android:src="@drawable/helpme_logo" />
 
-    <ImageView
-        android:id="@+id/iv_help_er_maps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/maps_dummy" />
+    <include
+        android:id="@+id/help_ee_details"
+        layout="@layout/help_ee_details" />
+
+    <com.google.android.maps.MapView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:apiKey="0ZUlfunSPJ2WLZxmS5WSo8WY5v6BgPXLoRR-CRw"
+        android:clickable="true" />
+
+    <include
+        android:id="@+id/distance_information"
+        layout="@layout/distance_information" />
 
 </LinearLayout>
