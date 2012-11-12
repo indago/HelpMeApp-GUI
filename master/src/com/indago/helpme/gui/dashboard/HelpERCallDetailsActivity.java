@@ -4,14 +4,18 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.android.helpme.demo.interfaces.DrawManagerInterface;
+import com.android.helpme.demo.interfaces.UserInterface;
+import com.android.helpme.demo.manager.HistoryManager;
 import com.android.helpme.demo.manager.MessageOrchestrator;
 import com.android.helpme.demo.utils.Task;
+import com.android.helpme.demo.utils.ThreadPool;
 import com.android.helpme.demo.utils.User;
 import com.google.android.maps.MapActivity;
 import com.indago.helpme.R;
@@ -19,6 +23,7 @@ import com.indago.helpme.R;
 public class HelpERCallDetailsActivity extends MapActivity implements DrawManagerInterface {
 	private static final String LOGTAG = HelpERCallDetailsActivity.class.getSimpleName();
 	protected static DisplayMetrics metrics = new DisplayMetrics();
+	private Handler mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		// set dialog message
 		alertDialogBuilder.setMessage("Do you really want to cancel your current support offer?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
+				HistoryManager.getInstance().getTask().setFailed();
+				HistoryManager.getInstance().stopTask();
 				startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
 
 				finish();
@@ -82,15 +89,26 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 		//finish();
 	}
+	
+	private Runnable addMarker(UserInterface userInterface){
+		return new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+	}
 
 	@Override
 	public void drawThis(Object object) {
 		if(object instanceof User) {
 			User user = (User) object;
-			//handler.post(addMarker(user));
+			mHandler.post(addMarker(user));
 		} else if(object instanceof Task) {
 			Task task = (Task) object;
-			//handler.post(showInRangeMessageBox(this));
+//			mHandler.post(showInRangeMessageBox(this));
 		}
 
 	}
