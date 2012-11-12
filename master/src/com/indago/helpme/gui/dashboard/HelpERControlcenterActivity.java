@@ -19,6 +19,8 @@ import com.android.helpme.demo.interfaces.UserInterface;
 import com.android.helpme.demo.manager.HistoryManager;
 import com.android.helpme.demo.manager.MessageOrchestrator;
 import com.android.helpme.demo.manager.UserManager;
+import com.android.helpme.demo.overlay.HistoryItemnizedOverlay;
+import com.android.helpme.demo.overlay.HistoryOverlayItem;
 import com.android.helpme.demo.utils.Task;
 import com.android.helpme.demo.utils.ThreadPool;
 import com.android.helpme.demo.utils.User;
@@ -38,7 +40,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 	private TabHost mTabHost;
 
 	private List<Overlay> mapOverlays;
-	private MyItemnizedOverlay overlay;
+	private HistoryItemnizedOverlay overlay;
 	private MapController mapController;
 	private Drawable mMapsPin;
 
@@ -64,6 +66,8 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 		mTabHost.addTab(statisticsTab);
 		mTabHost.addTab(aboutTab);
+		
+		initMaps();
 
 		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
 		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
@@ -79,7 +83,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 		mMapsPin = this.getResources().getDrawable(R.drawable.maps_pin_green);
 		mMapsPin.setBounds(0, 0, mMapsPin.getIntrinsicWidth(), mMapsPin.getIntrinsicHeight());
 
-		overlay = new MyItemnizedOverlay(mMapsPin, this);
+		overlay = new HistoryItemnizedOverlay(mMapsPin, this);
 
 		mapController = mapView.getController();
 		mapOverlays.add(overlay);
@@ -139,7 +143,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 					snippet = "HISTORY SNIPPED";
 
-					OverlayItem overlayitem = new OverlayItem(position.getGeoPoint(), user.getName(), snippet);
+					HistoryOverlayItem overlayitem = new HistoryOverlayItem(position.getGeoPoint(), user.getId(), snippet, jsonObject);
 					overlay.addOverlay(overlayitem);
 				}
 				setZoomLevel();
