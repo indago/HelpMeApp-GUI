@@ -4,7 +4,7 @@
     <SlidingDrawer
         android:id="@+id/slidingdrawer"
         android:layout_width="match_parent"
-        android:layout_height="310dp"
+        android:layout_height="200dp"
         android:animateOnClick="true"
         android:content="@id/ll_content"
         android:handle="@+id/ll_handle"

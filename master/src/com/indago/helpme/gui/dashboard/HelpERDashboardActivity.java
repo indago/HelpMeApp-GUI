@@ -82,13 +82,17 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 
 		ViewGroup vg = (ViewGroup) mSlidingDrawer.getContent();
 		vg.setRotation(180);
+		vg.setBackgroundColor(getResources().getColor(R.color.helpme_grey_dark));
 		TextView name = (TextView) vg.findViewById(R.id.tv_help_ee_name);
+		name.setText(name.getText() + " " + mUser.getName());
 		TextView age = (TextView) vg.findViewById(R.id.tv_help_ee_age);
-		TextView location = (TextView) vg.findViewById(R.id.tv_help_ee_location);
+		age.setText(age.getText() + " " + mUser.getAge());
+		TextView gender = (TextView) vg.findViewById(R.id.tv_help_ee_gender);
+		gender.setText(gender.getText() + " " + mUser.getGender());
 
 		Drawable[] drawables = new Drawable[4];
 		drawables[0] = getResources().getDrawable(R.drawable.user_picture_background);
-		drawables[1] = ImageUtility.retrieveDrawable(this, mUser.getName());
+		drawables[1] = ImageUtility.retrieveDrawable(this, mUser.getPicture());
 		drawables[2] = getResources().getDrawable(R.drawable.user_picture_overlay);
 		drawables[3] = getResources().getDrawable(R.drawable.user_picture_border);
 

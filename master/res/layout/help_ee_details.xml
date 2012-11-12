@@ -3,7 +3,6 @@
     android:id="@+id/ll_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/helpme_grey_dark"
     android:orientation="horizontal" >
 
     <ImageView
@@ -45,12 +44,12 @@
             android:src="@drawable/seperator_line_horizontal" />
 
         <TextView
-            android:id="@+id/tv_help_ee_location"
+            android:id="@+id/tv_help_ee_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:lines="1"
-            android:text="Gender: "
+            android:text="Age: "
             android:textColor="@color/white"
             android:textSize="6pt" />
 
@@ -63,12 +62,12 @@
             android:src="@drawable/seperator_line_horizontal" />
 
         <TextView
-            android:id="@+id/tv_help_ee_age"
+            android:id="@+id/tv_help_ee_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:lines="1"
-            android:text="Age: "
+            android:text="Gender: "
             android:textColor="@color/white"
             android:textSize="6pt" />
 

@@ -29,8 +29,4 @@
         android:apiKey="0ZUlfunSPJ2WLZxmS5WSo8WY5v6BgPXLoRR-CRw"
         android:clickable="true" />
 
-    <include
-        android:id="@+id/distance_information"
-        layout="@layout/distance_information" />
-
 </LinearLayout>
