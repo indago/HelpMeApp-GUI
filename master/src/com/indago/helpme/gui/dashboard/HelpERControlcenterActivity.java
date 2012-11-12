@@ -64,25 +64,21 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 		mTabHost.addTab(statisticsTab);
 		mTabHost.addTab(aboutTab);
-
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
-		mHandler.post(HistoryManager.getInstance().loadHistory(getApplicationContext()));
 	}
 
 	private void initMaps() {
 		MapView mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 
-		mapOverlays = mapView.getOverlays();
-
-		mMapsPin = this.getResources().getDrawable(R.drawable.maps_pin_green);
-		mMapsPin.setBounds(0, 0, mMapsPin.getIntrinsicWidth(), mMapsPin.getIntrinsicHeight());
-
-		overlay = new MyItemnizedOverlay(mMapsPin, this);
-
-		mapController = mapView.getController();
-		mapOverlays.add(overlay);
+//		mapOverlays = mapView.getOverlays();
+//
+//		mMapsPin = this.getResources().getDrawable(R.drawable.maps_pin_green);
+//		mMapsPin.setBounds(0, 0, mMapsPin.getIntrinsicWidth(), mMapsPin.getIntrinsicHeight());
+//
+//		overlay = new MyItemnizedOverlay(mMapsPin, this);
+//
+//		mapController = mapView.getController();
+//		mapOverlays.add(overlay);
 	}
 
 	@Override
@@ -93,23 +89,37 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 	@Override
 	public void onBackPressed() {
-		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 		finish();
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onPause() {
+		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
+		super.onPause();
+	}
 
-		super.onDestroy();
+	@Override
+	protected void onResume() {
+		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
+		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
+
+		mHandler.post(HistoryManager.getInstance().loadHistory(getApplicationContext()));
+		super.onResume();
 	}
 
 	@Override
 	public void drawThis(final Object object) {
 		if(object instanceof User) {
+			/*
+			 * Start Call Details Activity
+			 */
 			mHandler.post(startHelpERDashboard((UserInterface) object));
 		} else if(object instanceof ArrayList<?>) {
+			/*
+			 * 
+			 */
 			ArrayList<JSONObject> arrayList = (ArrayList<JSONObject>) object;
 			mHandler.post(addMarker(arrayList));
 		}
@@ -120,6 +130,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 			@Override
 			public void run() {
+				HistoryManager.getInstance().startNewTask(user);
 				Intent intent = new Intent(getApplicationContext(), HelpERDashboardActivity.class);
 				intent.putExtra("USER_ID", user.getId());
 
