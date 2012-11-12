@@ -1,6 +1,7 @@
 package com.indago.helpme.gui.dashboard.views;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -72,6 +73,7 @@ public class HelpEEHintView extends TextView implements IStateAwareView {
 				break;
 			case CALLCENTER_PRESSED:
 				mState = STATES.CALLCENTER_PRESSED;
+				(new CallCenterAnswers()).execute();
 				setTextAsHTML(getResources().getString(R.string.text_hint_help_ee_wait_for_callcenter));
 				break;
 			case HELP_INCOMMING:
@@ -87,6 +89,26 @@ public class HelpEEHintView extends TextView implements IStateAwareView {
 	@Override
 	public STATES getState() {
 		return mState;
+	}
+
+	private class CallCenterAnswers extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+				Thread.sleep(2000);
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			setTextAsHTML(getResources().getString(R.string.text_hint_help_ee_talking_to_callcenter));
+			super.onPostExecute(result);
+		}
+
 	}
 
 }

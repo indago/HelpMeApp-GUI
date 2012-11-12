@@ -29,7 +29,7 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 
 		PROGRESS, PROGRESS_GREEN, PROGRESS_YELLOW, PROGRESS_RED, PROGRESS_BLUE,
 
-		STANDBY;
+		STANDBY, STANDBY_YELLOW;
 	}
 
 	public static enum GRADIENT_COLORS {
@@ -148,6 +148,12 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 				activeAnimation = pulse;
 				drawable.setColors(GRADIENT_COLORS.GREEN.getColors());
 				activeAnimation.start();
+				break;
+			case STANDBY_YELLOW:
+				activeAnimation = pulse;
+				drawable.setColors(GRADIENT_COLORS.YELLOW.getColors());
+				activeAnimation.start();
+				break;
 			default:
 				break;
 		}
@@ -196,7 +202,7 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 				break;
 			case CALLCENTER_PRESSED:
 				mState = STATES.CALLCENTER_PRESSED;
-				startAnimation(ANIMATION.PROGRESS_YELLOW);
+				startAnimation(ANIMATION.STANDBY_YELLOW);
 				break;
 			case HELP_INCOMMING:
 				mState = STATES.HELP_INCOMMING;

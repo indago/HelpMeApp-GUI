@@ -3,6 +3,7 @@ package com.indago.helpme.gui.dashboard;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,6 +46,8 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	private Vibrator mVibrator;
 	private ResetTimer mIdleTimer;
 
+	private MediaPlayer mPlayer;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(LOGTAG, "onCreate()");
@@ -79,24 +82,19 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	}
 
 	@Override
-	protected void onPause() {
-
-		if(mIdleTimer != null) {
-			mIdleTimer.dismiss();
-		}
-
-		if(mStateMachine.getState() == STATES.FINISHED || mStateMachine.getState() == STATES.SHIELDED) {
-			ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
-			finish();
-
-		}
-		super.onPause();
+	public void onBackPressed() {
+		exit();
 	}
 
-	@Override
-	public void onBackPressed() {
+	private void exit() {
 		if(mStateMachine.getState() == STATES.FINISHED || mStateMachine.getState() == STATES.SHIELDED) {
-			super.onBackPressed();
+
+			if(mIdleTimer != null) {
+				mIdleTimer.dismiss();
+			}
+
+			ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
+			finish();
 		}
 	}
 
@@ -126,9 +124,14 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 										break;
 									case HELP_INCOMMING:
 										mStateMachine.setState(STATES.FINISHED);
+
+										exit();
 										break;
 									case CALLCENTER_PRESSED:
+										(new ExitAfterCCDemo()).execute(mPlayer);
+
 										mStateMachine.setState(STATES.FINISHED);
+
 										break;
 									default:
 										if(mIdleTimer != null) {
@@ -159,6 +162,8 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 		orchestrator = MessageOrchestrator.getInstance();
 		orchestrator.addDrawManager(DRAWMANAGER_TYPE.SEEKER, this);
+
+		mPlayer = MediaPlayer.create(this, R.raw.callcenter);
 	}
 
 	private void reset() {
@@ -354,6 +359,39 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 				mStateMachine.setState(state);
 			}
 			super.onPostExecute(state);
+		}
+
+	}
+
+	class ExitAfterCCDemo extends AsyncTask<MediaPlayer, Void, Void> {
+
+		@Override
+		protected Void doInBackground(MediaPlayer... params) {
+			final MediaPlayer player = params[0];
+
+			try {
+				Thread.sleep(1000);
+
+				player.start();
+
+				while(player.isPlaying()) {
+					Thread.sleep(1000);
+				}
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			} catch(IllegalStateException e) {
+				Log.e(LOGTAG, "ExitAfterCCDemo Thread - MediaPlayer throws IllegalStateException!");
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+
+			exit();
 		}
 
 	}
