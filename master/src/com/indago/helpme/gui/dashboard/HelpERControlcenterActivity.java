@@ -90,14 +90,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 	@Override
 	public void onBackPressed() {
 		finish();
-	}
-
-	@Override
-	protected void onPause() {
-		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
-		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
-		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
-		super.onPause();
+		super.onBackPressed();
 	}
 
 	@Override
@@ -110,6 +103,15 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 	}
 
 	@Override
+	protected void onPause() {
+		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
+		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
+		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
+
+		super.onPause();
+	}
+
+	@Override
 	public void drawThis(final Object object) {
 		if(object instanceof User) {
 			/*
@@ -118,7 +120,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 			mHandler.post(startHelpERDashboard((UserInterface) object));
 		} else if(object instanceof ArrayList<?>) {
 			/*
-			 * 
+			 * Add History
 			 */
 			ArrayList<JSONObject> arrayList = (ArrayList<JSONObject>) object;
 			mHandler.post(addMarker(arrayList));
