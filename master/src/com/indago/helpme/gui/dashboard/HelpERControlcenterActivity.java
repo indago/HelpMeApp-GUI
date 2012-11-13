@@ -32,7 +32,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.indago.helpme.R;
-import com.indago.helpme.gui2.MyItemnizedOverlay;
 
 public class HelpERControlcenterActivity extends MapActivity implements DrawManagerInterface {
 
@@ -66,7 +65,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 		mTabHost.addTab(statisticsTab);
 		mTabHost.addTab(aboutTab);
-		
+
 		initMaps();
 	}
 
@@ -126,10 +125,10 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 			/*
 			 * Add History
 			 */
-			if (( (ArrayList<?>)  object).get(0) instanceof JSONObject) {
+			if(((ArrayList<?>) object).get(0) instanceof JSONObject) {
 				ArrayList<JSONObject> arrayList = (ArrayList<JSONObject>) object;
 				mHandler.post(addMarker(arrayList));
-			} 
+			}
 		}
 	}
 
