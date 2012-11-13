@@ -93,6 +93,8 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 				mIdleTimer.dismiss();
 			}
 
+			orchestrator.removeDrawManager(DRAWMANAGER_TYPE.SEEKER);
+			orchestrator.removeDrawManager(DRAWMANAGER_TYPE.HELPERCOMMING);
 			ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 			finish();
 		}
@@ -204,6 +206,10 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 				}
 			});
 
+			orchestrator.removeDrawManager(DRAWMANAGER_TYPE.SEEKER);
+			orchestrator.addDrawManager(DRAWMANAGER_TYPE.HELPERCOMMING, this);
+			
+			
 			long[] pattern = { 0, 25, 75, 25, 75, 25, 75, 25 };
 			mVibrator.vibrate(pattern, -1);
 			mFadeIn.start();
@@ -236,22 +242,37 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	@Override
 	public void drawThis(Object object) {
 		if(object instanceof User) {
-			mHandler.post(new Runnable() {
+			if (mStateMachine.getState() != STATES.HELP_INCOMMING) {
+				mHandler.post(new Runnable() {
 
-				@Override
-				public void run() {
-					toHelpIncomming();
-				}
-			});
+					@Override
+					public void run() {
+						toHelpIncomming();
+					}
+				});
+			}
 		}
 		if(object instanceof Task) {
-			mHandler.post(new Runnable() {
+			Task task = (Task) object;
+			if (!task.isSuccsessfull()) {
+				mHandler.post(new Runnable() {
 
-				@Override
-				public void run() {
-					toCallCenter();
-				}
-			});
+					@Override
+					public void run() {
+						toCallCenter();
+					}
+				});
+			}
+			else{
+				orchestrator.removeDrawManager(DRAWMANAGER_TYPE.HELPERCOMMING);
+				mHandler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						exit();
+					}
+				});
+			}
 		}
 	}
 

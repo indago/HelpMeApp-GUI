@@ -47,6 +47,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 	private HashMap<String, OverlayItem> hashMapOverlayItem;
 	private Drawable mMapsPinGreen;
 	private Drawable mMapsPinOrange;
+	private boolean show = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -194,10 +195,15 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 	}
 
 	private Runnable showInRangeMessageBox(final Context context) {
+		show = true;
 		return new Runnable() {
 
 			@Override
 			public void run() {
+				MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
+				HistoryManager.getInstance().stopTask();
+				mHandler.post(HistoryManager.getInstance().saveHistory(getApplicationContext()));
+				
 				AlertDialog.Builder dlgAlert = new AlertDialog.Builder(context);
 				dlgAlert.setTitle(getString(R.string.seeker_in_range_title));
 				dlgAlert.setMessage(getString(R.string.seeker_in_range_text));
@@ -206,12 +212,6 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Intent intent = new Intent(getApplicationContext(), HelpERControlcenterActivity.class);
-						MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
-
-						HistoryManager.getInstance().getTask().setSuccesfull();
-						HistoryManager.getInstance().stopTask();
-						mHandler.post(HistoryManager.getInstance().saveHistory(getApplicationContext()));
-
 						startActivity(intent);
 						finish();
 					}
@@ -234,7 +234,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 			mHandler.post(addMarker(user));
 		} else if(object instanceof Task) {
 			Task task = (Task) object;
-			mHandler.post(showInRangeMessageBox(this));
+			if (!show) {
+				mHandler.post(showInRangeMessageBox(this));
+			}
 		}
 
 	}

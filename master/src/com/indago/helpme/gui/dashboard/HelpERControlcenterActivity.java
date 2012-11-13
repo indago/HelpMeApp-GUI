@@ -138,7 +138,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 			@Override
 			public void run() {
-				HistoryManager.getInstance().startNewTask(user);
+//				HistoryManager.getInstance().startNewTask(user);
 				Intent intent = new Intent(getApplicationContext(), HelpERDashboardActivity.class);
 				intent.putExtra("USER_ID", user.getId());
 
