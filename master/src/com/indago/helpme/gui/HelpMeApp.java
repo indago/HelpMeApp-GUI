@@ -41,15 +41,10 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		setContentView(R.layout.activity_helpmeapp);
 
 		mHandler = new Handler();
-
-		initBackend();
 	}
 
 	private void initBackend() {
 		ThreadPool.getThreadPool(10);
-
-		Intent intent = new Intent(this, RabbitMQService.class);
-		startService(intent);
 
 		mOrchestrator = MessageOrchestrator.getInstance();
 		mOrchestrator.addDrawManager(DRAWMANAGER_TYPE.SWITCHER, this);
@@ -110,9 +105,15 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		Intent intent = new Intent(this, RabbitMQService.class);
+		startService(intent);
 
+		initBackend();
+		
 		ThreadPool.runTask(RabbitMQManager.getInstance().bindToService(this));
 		ThreadPool.runTask(UserManager.getInstance().readUserChoice(getApplicationContext()));
+//		ThreadPool.runTask(RabbitMQManager.getInstance().)
 		//ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 	}
 

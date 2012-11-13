@@ -15,6 +15,7 @@ import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import com.android.helpme.demo.manager.HistoryManager;
 import com.android.helpme.demo.manager.MessageOrchestrator;
 import com.android.helpme.demo.manager.UserManager;
 import com.android.helpme.demo.overlay.MapItemnizedOverlay;
+import com.android.helpme.demo.overlay.MapOverlayItem;
 import com.android.helpme.demo.utils.Task;
 import com.android.helpme.demo.utils.User;
 import com.google.android.maps.GeoPoint;
@@ -45,7 +47,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 	private List<Overlay> mapOverlays;
 	private MapItemnizedOverlay overlay;
 	private MapController mapController;
-	private HashMap<String, OverlayItem> hashMapOverlayItem;
+	private HashMap<String, MapOverlayItem> hashMapOverlayItem;
 	private Drawable mMapsPinGreen;
 	private Drawable mMapsPinOrange;
 	private boolean show = false;
@@ -54,7 +56,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-								WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -85,6 +87,13 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 		ImageView picture = (ImageView) findViewById(R.id.iv_help_ee_picture);
 		picture.setImageDrawable(new LayerDrawable(drawables));
+		picture.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setZoomLevel();
+			}
+		});
 
 		mHandler = new Handler();
 		initMaps(mUser);
@@ -100,7 +109,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 	protected void setDefaulAppearance() {
 		getWindow().getDecorView().getRootView()
-				.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}
 
 	private void initMaps(UserInterface userInterface) {
@@ -108,7 +117,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		mapView.setBuiltInZoomControls(true);
 
 		mapOverlays = mapView.getOverlays();
-		hashMapOverlayItem = new HashMap<String, OverlayItem>();
+		hashMapOverlayItem = new HashMap<String, MapOverlayItem>();
 
 		mMapsPinOrange = this.getResources().getDrawable(R.drawable.maps_pin_orange);
 		int w = mMapsPinOrange.getIntrinsicWidth();
@@ -131,8 +140,6 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 	@Override
 	public void onBackPressed() {
-		// BLABLA
-
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// set title
@@ -174,24 +181,27 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 			@Override
 			public void run() {
-				OverlayItem overlayitem = hashMapOverlayItem.get(userInterface.getId());
+				MapOverlayItem overlayitem = hashMapOverlayItem.get(userInterface.getId());
 				if(overlayitem != null) {
 					overlay.removeItem(overlayitem);
 				}
+				if (hashMapOverlayItem.size() <= 1 && overlayitem == null) {
+					setZoomLevel();
+				}
 
 				if(userInterface.getId().equalsIgnoreCase(UserManager.getInstance().thisUser().getId())) {
-					overlayitem = new OverlayItem(userInterface.getGeoPoint(), userInterface.getId(), "Sie");
+					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject() , ImageUtility.retrieveDrawable(getApplicationContext(), userInterface.getPicture()));
 					overlayitem.setMarker(mMapsPinGreen);
 
 				} else {// a help seeker
-					overlayitem = new OverlayItem(userInterface.getGeoPoint(), userInterface.getId(), "ein Hilfesuchender");
+					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null,userInterface.getJsonObject(), ImageUtility.retrieveDrawable(getApplicationContext(), userInterface.getPicture()));
 					overlayitem.setMarker(mMapsPinOrange);
 
 				}
 
 				hashMapOverlayItem.put(userInterface.getId(), overlayitem);
 				overlay.addOverlay(overlayitem);
-				setZoomLevel();
+				//				setZoomLevel();
 
 			}
 		};
@@ -274,9 +284,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				minLongitude = Math.min(lon, minLongitude);
 			}
 			mapController.zoomToSpan(Math.abs(maxLatitude - minLatitude),
-										Math.abs(maxLongitude - minLongitude));
+					Math.abs(maxLongitude - minLongitude));
 			mapController.animateTo(new GeoPoint((maxLatitude + minLatitude) / 2,
-													(maxLongitude + minLongitude) / 2));
+					(maxLongitude + minLongitude) / 2));
 
 		} else {
 			String key = (String) keys[0];
