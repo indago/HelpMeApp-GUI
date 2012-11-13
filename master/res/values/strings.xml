@@ -74,5 +74,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_help_er_controlcenter">HelpERControlcenterActivity</string>
+    <string name="help_ee_details_name"><![CDATA[<font color="#00a9e8"><b>Name: </b></font>]]></string>
+    <string name="help_ee_details_age"><![CDATA[<font color="#00a9e8"><b>Age: </b></font>]]></string>
+    <string name="help_ee_details_gender"><![CDATA[<font color="#00a9e8"><b>Gender: </b></font>]]></string>
 
 </resources>

@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:lines="1"
-            android:text="Name: "
+            android:text="@string/help_ee_details_name"
             android:textColor="@color/white"
             android:textSize="6pt" />
 
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:lines="1"
-            android:text="Age: "
+            android:text="@string/help_ee_details_age"
             android:textColor="@color/white"
             android:textSize="6pt" />
 
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:lines="1"
-            android:text="Gender: "
+            android:text="@string/help_ee_details_gender"
             android:textColor="@color/white"
             android:textSize="6pt" />
 

@@ -8,6 +8,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.Html;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -84,11 +85,11 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 		vg.setRotation(180);
 		vg.setBackgroundColor(getResources().getColor(R.color.helpme_grey_dark));
 		TextView name = (TextView) vg.findViewById(R.id.tv_help_ee_name);
-		name.setText(name.getText() + " " + mUser.getName());
+		name.setText(Html.fromHtml(name.getText() + " " + mUser.getName()));
 		TextView age = (TextView) vg.findViewById(R.id.tv_help_ee_age);
-		age.setText(age.getText() + " " + mUser.getAge());
+		age.setText(Html.fromHtml(age.getText() + " " + mUser.getAge()));
 		TextView gender = (TextView) vg.findViewById(R.id.tv_help_ee_gender);
-		gender.setText(gender.getText() + " " + mUser.getGender());
+		gender.setText(Html.fromHtml(gender.getText() + " " + mUser.getGender()));
 
 		Drawable[] drawables = new Drawable[4];
 		drawables[0] = getResources().getDrawable(R.drawable.user_picture_background);

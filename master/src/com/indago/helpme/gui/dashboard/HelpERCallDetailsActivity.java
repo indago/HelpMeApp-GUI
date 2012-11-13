@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -70,11 +71,11 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		}
 
 		TextView name = (TextView) findViewById(R.id.tv_help_ee_name);
-		name.setText(name.getText() + " " + mUser.getName());
+		name.setText(Html.fromHtml(name.getText() + " " + mUser.getName()));
 		TextView age = (TextView) findViewById(R.id.tv_help_ee_age);
-		age.setText(age.getText() + " " + mUser.getAge());
+		age.setText(Html.fromHtml(age.getText() + " " + mUser.getAge()));
 		TextView gender = (TextView) findViewById(R.id.tv_help_ee_gender);
-		gender.setText(gender.getText() + " " + mUser.getGender());
+		gender.setText(Html.fromHtml(gender.getText() + " " + mUser.getGender()));
 
 		Drawable[] drawables = new Drawable[4];
 		drawables[0] = getResources().getDrawable(R.drawable.user_picture_background);
@@ -203,7 +204,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
 				HistoryManager.getInstance().stopTask();
 				mHandler.post(HistoryManager.getInstance().saveHistory(getApplicationContext()));
-				
+
 				AlertDialog.Builder dlgAlert = new AlertDialog.Builder(context);
 				dlgAlert.setTitle(getString(R.string.seeker_in_range_title));
 				dlgAlert.setMessage(getString(R.string.seeker_in_range_text));
@@ -234,7 +235,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 			mHandler.post(addMarker(user));
 		} else if(object instanceof Task) {
 			Task task = (Task) object;
-			if (!show) {
+			if(!show) {
 				mHandler.post(showInRangeMessageBox(this));
 			}
 		}
