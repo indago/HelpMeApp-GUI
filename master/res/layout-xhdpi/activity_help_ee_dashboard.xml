@@ -52,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/helpme_logo" 
+        android:contentDescription="@string/content_description"
         android:layout_marginTop="80dp"/>
     
     <ImageView
@@ -60,6 +61,7 @@
         android:layout_height="fill_parent"
         android:alpha="0.0"
         android:scaleType="center"
+        android:contentDescription="@string/content_description"
         android:src="@drawable/drawable_white" />
 
     <!-- <include layout="@layout/helpme_sponsor_slider"/> -->

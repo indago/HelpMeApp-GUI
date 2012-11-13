@@ -28,7 +28,7 @@
         android:layout_gravity="center"
         android:layout_marginRight="8dp"
         android:gravity="center"
-        android:text="Some Person"
+        android:text=""
         android:textColor="#ffffffff"
         android:textSize="14pt" />
     

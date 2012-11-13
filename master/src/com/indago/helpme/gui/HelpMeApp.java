@@ -37,7 +37,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login_tabhost);
+		setContentView(R.layout.activity_helpmeapp);
 
 		mHandler = new Handler();
 

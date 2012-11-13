@@ -11,6 +11,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
+        android:contentDescription="@string/content_description"
         android:src="@drawable/user_picture_layerlist" />
 
     <LinearLayout
@@ -41,6 +42,7 @@
             android:layout_height="4dp"
             android:layout_marginRight="10dp"
             android:scaleType="fitXY"
+            android:contentDescription="@string/content_description"
             android:src="@drawable/seperator_line_horizontal" />
 
         <TextView
@@ -59,6 +61,7 @@
             android:layout_height="4dp"
             android:layout_marginRight="10dp"
             android:scaleType="fitXY"
+            android:contentDescription="@string/content_description"
             android:src="@drawable/seperator_line_horizontal" />
 
         <TextView

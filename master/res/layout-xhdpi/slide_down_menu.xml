@@ -25,7 +25,7 @@
                 android:layout_height="60dp"
                 android:background="@drawable/sponsor_area_handle"
                 android:rotation="180"
-                android:text="Handle"
+                android:text=""
                 android:textColor="@color/white" />
         </LinearLayout>
 

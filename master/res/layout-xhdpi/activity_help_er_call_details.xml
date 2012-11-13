@@ -3,7 +3,6 @@
     android:id="@+id/ll_help_er_controlcenter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:orientation="vertical" >
 
     <ImageView
@@ -13,7 +12,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:contentDescription="logo"
+        android:contentDescription="@string/content_description"
         android:scaleType="center"
         android:src="@drawable/helpme_logo" />
 

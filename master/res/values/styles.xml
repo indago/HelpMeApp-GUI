@@ -1,4 +1,9 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="HelpMeAppTheme" parent="android:Theme.Holo.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/background</item>
+        <item name="android:colorBackground">@color/helpme_grey_dark</item>
+    </style>
 
     <color name="sd_content_background">#212121</color>
     <color name="black">#ff000000</color>

@@ -111,7 +111,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		hashMapOverlayItem = new HashMap<String, OverlayItem>();
 
 		mMapsPinOrange = this.getResources().getDrawable(R.drawable.maps_pin_orange);
-		mMapsPinOrange.setBounds(0, 0, mMapsPinOrange.getIntrinsicWidth(), mMapsPinOrange.getIntrinsicHeight());
+		int w = mMapsPinOrange.getIntrinsicWidth();
+		int h = mMapsPinOrange.getIntrinsicHeight();
+		mMapsPinOrange.setBounds(-w / 2, -h, w / 2, 0);
 
 		mMapsPinGreen = this.getResources().getDrawable(R.drawable.maps_pin_green);
 		mMapsPinGreen.setBounds(0, 0, mMapsPinGreen.getIntrinsicWidth(), mMapsPinGreen.getIntrinsicHeight());
