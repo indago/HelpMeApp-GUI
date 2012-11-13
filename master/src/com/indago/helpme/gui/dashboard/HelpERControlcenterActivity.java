@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
 import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -82,12 +81,6 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 		mapController = mapView.getController();
 		mapOverlays.add(overlay);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.help_er_controlcenter, menu);
-		return true;
 	}
 
 	@Override
