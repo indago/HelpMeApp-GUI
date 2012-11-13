@@ -7,9 +7,14 @@ import org.json.simple.JSONObject;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -31,6 +36,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.indago.helpme.R;
+import com.indago.helpme.gui.list.AboutListAdapter;
 
 public class HelpERControlcenterActivity extends MapActivity implements DrawManagerInterface {
 
@@ -41,6 +47,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 	private HistoryItemnizedOverlay overlay;
 	private MapController mapController;
 	private Drawable mMapsPin;
+	private ListView lvAbout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,21 +58,60 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 		mHandler = new Handler();
 
+		initTabs();
+		initMaps();
+	}
+
+	private void initTabs() {
 		mTabHost = (TabHost) findViewById(R.id.tabhost);
 		mTabHost.setup();
 
 		TabSpec statisticsTab = mTabHost.newTabSpec("Statistics");
 		statisticsTab.setContent(R.id.ll_tab1);
-		statisticsTab.setIndicator("Statistics");
+		statisticsTab.setIndicator(getResources().getString(R.string.help_er_controlcenter_tab_history));
 
 		TabSpec aboutTab = mTabHost.newTabSpec("About");
 		aboutTab.setContent(R.id.ll_tab2);
-		aboutTab.setIndicator("About");
+		aboutTab.setIndicator(getResources().getString(R.string.help_er_controlcenter_tab_about));
 
 		mTabHost.addTab(statisticsTab);
 		mTabHost.addTab(aboutTab);
 
-		initMaps();
+		List<Drawable> list = new ArrayList<Drawable>();
+
+		list.add(getResources().getDrawable(R.drawable.logo_igd));
+		list.add(getResources().getDrawable(R.drawable.logo_uid));
+		list.add(getResources().getDrawable(R.drawable.logo_tud));
+
+		AboutListAdapter adapter = new AboutListAdapter(getApplicationContext(), R.layout.list_item_picture, list);
+
+		lvAbout = (ListView) findViewById(R.id.lv_tab2);
+		lvAbout.setAdapter(adapter);
+		lvAbout.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long it) {
+				Uri uri;
+
+				switch(position) {
+					case 0:
+						uri = Uri.parse("http://igd.fraunhofer.de");
+						startActivity(new Intent(Intent.ACTION_VIEW, uri));
+						break;
+					case 1:
+						uri = Uri.parse("http://www.uid.com/en/home.html");
+						startActivity(new Intent(Intent.ACTION_VIEW, uri));
+						break;
+					case 2:
+						uri = Uri.parse("http://www.tu-darmstadt.de/");
+						startActivity(new Intent(Intent.ACTION_VIEW, uri));
+						break;
+					default:
+						break;
+				}
+			}
+		});
+
 	}
 
 	private void initMaps() {

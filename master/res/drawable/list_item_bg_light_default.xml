@@ -3,11 +3,16 @@
 
     <!-- <solid android:color="@color/helpme_grey_dark"/> -->
     
+    <solid android:color="#FFBDBDBD"/>
+    
+    <!-- 
+    
     <gradient
-        android:endColor="@color/helpme_grey_dark"
         android:angle="270"
-        android:startColor="#ff424242"
-        android:type="linear" />
+        android:endColor="#FFE0E0E0"
+        android:startColor="#FFBDBDBD"
+        android:type="linear" /> 
+    --> 
 
     <stroke
         android:width="4dp"

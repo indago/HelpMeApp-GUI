@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:background="@drawable/row_selector" >
+    android:background="@drawable/row_selector_dark" >
 
     <ImageView
         android:id="@+id/iv_list_picture"
