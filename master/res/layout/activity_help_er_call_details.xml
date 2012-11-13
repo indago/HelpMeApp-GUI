@@ -21,12 +21,17 @@
         android:id="@+id/help_ee_details"
         layout="@layout/help_ee_details" />
 
+    <!-- 
+    Andreas Api Key = 0ZUlfunSPJ2WLZxmS5WSo8WY5v6BgPXLoRR-CRw
+    Martins Api Key = 0o1z9e5HX_ofamEfAeJtMsM3lpt6mugt-V0pu-g
+    -->
+                     
     <com.google.android.maps.MapView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mapview"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:apiKey="0ZUlfunSPJ2WLZxmS5WSo8WY5v6BgPXLoRR-CRw"
+        android:apiKey="0o1z9e5HX_ofamEfAeJtMsM3lpt6mugt-V0pu-g"
         android:clickable="true" />
 
 </LinearLayout>
