@@ -23,6 +23,7 @@ import com.android.helpme.demo.rabbitMQ.RabbitMQService;
 import com.android.helpme.demo.utils.ThreadPool;
 import com.android.helpme.demo.utils.User;
 import com.indago.helpme.R;
+import com.indago.helpme.gui.list.LogInListAdapter;
 
 public class HelpMeApp extends ATemplateActivity implements OnItemClickListener, DrawManagerInterface {
 	private static final String LOGTAG = HelpMeApp.class.getSimpleName();

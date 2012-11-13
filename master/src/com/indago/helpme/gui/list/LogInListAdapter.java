@@ -1,4 +1,4 @@
-package com.indago.helpme.gui;
+package com.indago.helpme.gui.list;
 
 import java.util.List;
 
