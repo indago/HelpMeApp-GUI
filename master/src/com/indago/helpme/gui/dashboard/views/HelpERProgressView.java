@@ -31,28 +31,16 @@ public class HelpERProgressView extends ImageView implements IStateAwareView {
 	}
 
 	public static enum GRADIENT_COLORS {
-		GREEN, GREEN_YELLOW, YELLOW, YELLOW_RED, RED, RED_DARK, BLUE;
+		GREEN, YELLOW, RED, BLUE, WHITE,
+	}
 
-		private GRADIENT_COLORS() {
-
-		}
-
-		private int[] colors = new int[3];
-
-		public void setColors(int start, int center, int end) {
-			colors[0] = start;
-			colors[1] = center;
-			colors[2] = end;
-		}
-
-		public int[] getColors() {
-			return colors;
-		}
+	public static enum GRADIENT_COUNTDOWN_BLUE {
+		B00, B01, B02, B03, B04, B05;
 	}
 
 	private STATES mState;
-	private GradientDrawable drawable;
-	private int[][] countdown_colors;
+	private GradientDrawable[] drawable;
+	private GradientDrawable[] drawable_countdown;
 	private int countdownIdx;
 	private AnimatorSet flash;
 	private AnimatorSet asProgressAnim;
@@ -78,25 +66,22 @@ public class HelpERProgressView extends ImageView implements IStateAwareView {
 		setAlpha(0.0f);
 		setScaleY(1.0f);
 		//		setPivotY(256);
-		drawable = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator);
-		setImageDrawable(drawable);
+		drawable = new GradientDrawable[GRADIENT_COLORS.values().length];
 
-		GRADIENT_COLORS.GREEN.setColors(getContext().getResources().getColor(R.color.green_start), getContext().getResources().getColor(R.color.green_center), getContext().getResources().getColor(R.color.green_end));
-		GRADIENT_COLORS.YELLOW.setColors(getContext().getResources().getColor(R.color.yellow_start), getContext().getResources().getColor(R.color.yellow_center), getContext().getResources().getColor(R.color.yellow_end));
-		GRADIENT_COLORS.RED.setColors(getContext().getResources().getColor(R.color.red_start), getContext().getResources().getColor(R.color.red_center), getContext().getResources().getColor(R.color.red_end));
-		GRADIENT_COLORS.BLUE.setColors(getContext().getResources().getColor(R.color.blue_start), getContext().getResources().getColor(R.color.blue_center), getContext().getResources().getColor(R.color.blue_end));
+		drawable[GRADIENT_COLORS.BLUE.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_blue);
+		drawable[GRADIENT_COLORS.GREEN.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_green);
+		drawable[GRADIENT_COLORS.YELLOW.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_yellow);
+		drawable[GRADIENT_COLORS.RED.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_red);
+		drawable[GRADIENT_COLORS.WHITE.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_white);
+		setImageDrawable(drawable[GRADIENT_COLORS.BLUE.ordinal()]);
 
-		GRADIENT_COLORS.GREEN_YELLOW.setColors(getContext().getResources().getColor(R.color.green_yellow_start), getContext().getResources().getColor(R.color.green_yellow_center), getContext().getResources().getColor(R.color.green_yellow_end));
-		GRADIENT_COLORS.YELLOW_RED.setColors(getContext().getResources().getColor(R.color.yellow_red_start), getContext().getResources().getColor(R.color.yellow_red_center), getContext().getResources().getColor(R.color.yellow_red_end));
-		GRADIENT_COLORS.RED_DARK.setColors(getContext().getResources().getColor(R.color.red_dark_start), getContext().getResources().getColor(R.color.red_dark_center), getContext().getResources().getColor(R.color.red_dark_end));
-
-		countdown_colors = new int[6][];
-		countdown_colors[0] = GRADIENT_COLORS.GREEN.getColors();
-		countdown_colors[1] = GRADIENT_COLORS.GREEN_YELLOW.getColors();
-		countdown_colors[2] = GRADIENT_COLORS.YELLOW.getColors();
-		countdown_colors[3] = GRADIENT_COLORS.YELLOW_RED.getColors();
-		countdown_colors[4] = GRADIENT_COLORS.RED.getColors();
-		countdown_colors[5] = GRADIENT_COLORS.RED_DARK.getColors();
+		drawable_countdown = new GradientDrawable[GRADIENT_COUNTDOWN_BLUE.values().length];
+		drawable_countdown[GRADIENT_COUNTDOWN_BLUE.B00.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_countdown_blue01);
+		drawable_countdown[GRADIENT_COUNTDOWN_BLUE.B01.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_countdown_blue02);
+		drawable_countdown[GRADIENT_COUNTDOWN_BLUE.B02.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_countdown_blue03);
+		drawable_countdown[GRADIENT_COUNTDOWN_BLUE.B03.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_countdown_blue04);
+		drawable_countdown[GRADIENT_COUNTDOWN_BLUE.B04.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_countdown_blue05);
+		drawable_countdown[GRADIENT_COUNTDOWN_BLUE.B05.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_countdown_blue06);
 
 		flash = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.indicator_flash);
 		flash.setTarget(this);
@@ -116,41 +101,42 @@ public class HelpERProgressView extends ImageView implements IStateAwareView {
 				break;
 			case FLASH_GREEN:
 				activeAnimation = flash;
-				drawable.setColors(GRADIENT_COLORS.GREEN.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.GREEN.ordinal()]);
 				activeAnimation.start();
 				break;
 			case FLASH_YELLOW:
 				activeAnimation = flash;
-				drawable.setColors(GRADIENT_COLORS.YELLOW.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.YELLOW.ordinal()]);
 				activeAnimation.start();
 				break;
 			case FLASH_RED:
 				activeAnimation = flash;
-				drawable.setColors(GRADIENT_COLORS.RED.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.RED.ordinal()]);
 				activeAnimation.start();
 				break;
 			case FLASH_BLUE:
 				activeAnimation = flash;
-				drawable.setColors(GRADIENT_COLORS.BLUE.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.BLUE.ordinal()]);
 				activeAnimation.start();
 				break;
 			case PROGRESS:
 			case PROGRESS_BLUE:
 				activeAnimation = asProgressAnim;
 				setPivotY(this.getMeasuredHeight());
-				drawable.setColors(GRADIENT_COLORS.BLUE.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.BLUE.ordinal()]);
 				activeAnimation.start();
 				break;
 			case PROGRESS_YELLOW:
 				activeAnimation = asProgressAnim;
 				setPivotY(this.getMeasuredHeight());
-				drawable.setColors(GRADIENT_COLORS.YELLOW.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.YELLOW.ordinal()]);
 				activeAnimation.start();
 				break;
 			case COUNTDOWN:
 				break;
 			case COUNTDOWN_BLUE:
-				drawable.setColors(GRADIENT_COLORS.BLUE.getColors());
+				setImageDrawable(drawable_countdown[5]);
+				//drawable.setColors(GRADIENT_COLORS.BLUE.getColors());
 				break;
 			default:
 				break;
@@ -201,9 +187,9 @@ public class HelpERProgressView extends ImageView implements IStateAwareView {
 			if(scaleY > 0.0f) {
 				scaleY -= 0.16667f * size;
 				this.setScaleY(scaleY);
-				countdownIdx += size;
-				if(countdownIdx < countdown_colors.length) {
-					drawable.setColors(countdown_colors[countdownIdx]);
+				countdownIdx -= size;
+				if(countdownIdx >= 0) {
+					setImageDrawable(drawable_countdown[countdownIdx]);
 				}
 			}
 		}
@@ -213,8 +199,8 @@ public class HelpERProgressView extends ImageView implements IStateAwareView {
 
 	private void prepareCountdown() {
 		activeAnimation = null;
-		countdownIdx = 0;
-		drawable.setColors(countdown_colors[countdownIdx]);
+		countdownIdx = drawable_countdown.length - 1;
+		setImageDrawable(drawable_countdown[countdownIdx]);
 		this.setAlpha(1.0f);
 		this.setScaleY(1.0f);
 	}

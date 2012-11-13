@@ -43,7 +43,7 @@ public class HelpEEButtonView extends ImageButton implements IStateAwareView {
 		drawables[6] = context.getResources().getDrawable(R.drawable.btn_call_pressed);
 		drawables[7] = context.getResources().getDrawable(R.drawable.btn_help_incomming);
 
-		this.setBackground(context.getResources().getDrawable(R.drawable.undefined));
+		this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.undefined));
 
 	}
 
@@ -60,35 +60,35 @@ public class HelpEEButtonView extends ImageButton implements IStateAwareView {
 		switch((STATES) sm.getState()) {
 			case SHIELDED:
 				mState = STATES.SHIELDED;
-				this.setBackground(drawables[0]);
+				this.setBackgroundDrawable(drawables[0]);
 				break;
 			case PART_SHIELDED:
 				mState = STATES.PART_SHIELDED;
-				this.setBackground(drawables[1]);
+				this.setBackgroundDrawable(drawables[1]);
 				break;
 			case UNSHIELDED:
 				mState = STATES.UNSHIELDED;
-				this.setBackground(drawables[2]);
+				this.setBackgroundDrawable(drawables[2]);
 				break;
 			case PRESSED:
 				mState = STATES.PRESSED;
-				this.setBackground(drawables[3]);
+				this.setBackgroundDrawable(drawables[3]);
 				break;
 			case LOCKED:
 				mState = STATES.LOCKED;
-				this.setBackground(drawables[4]);
+				this.setBackgroundDrawable(drawables[4]);
 				break;
 			case CALLCENTER:
 				mState = STATES.CALLCENTER;
-				this.setBackground(drawables[5]);
+				this.setBackgroundDrawable(drawables[5]);
 				break;
 			case CALLCENTER_PRESSED:
 				mState = STATES.CALLCENTER_PRESSED;
-				this.setBackground(drawables[6]);
+				this.setBackgroundDrawable(drawables[6]);
 				break;
 			case HELP_INCOMMING:
 				mState = STATES.CALLCENTER_PRESSED;
-				this.setBackground(drawables[7]);
+				this.setBackgroundDrawable(drawables[7]);
 				break;
 			default:
 				break;

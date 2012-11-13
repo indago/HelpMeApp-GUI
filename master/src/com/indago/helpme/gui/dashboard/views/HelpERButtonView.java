@@ -38,7 +38,7 @@ public class HelpERButtonView extends ImageButton implements IStateAwareView {
 		drawables[1] = context.getResources().getDrawable(R.drawable.btn_accept_pressed);
 		drawables[2] = context.getResources().getDrawable(R.drawable.btn_decline_pressed);
 
-		this.setBackground(context.getResources().getDrawable(R.drawable.btn_accept_decline));
+		this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.btn_accept_decline));
 
 	}
 
@@ -54,13 +54,13 @@ public class HelpERButtonView extends ImageButton implements IStateAwareView {
 
 		switch((STATES) sm.getState()) {
 			case DEFAULT:
-				setBackground(drawables[0]);
+				setBackgroundDrawable(drawables[0]);
 				break;
 			case ACCEPTED:
-				setBackground(drawables[1]);
+				setBackgroundDrawable(drawables[1]);
 				break;
 			case DECLINED:
-				setBackground(drawables[2]);
+				setBackgroundDrawable(drawables[2]);
 				break;
 			default:
 				break;

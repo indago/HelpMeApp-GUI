@@ -29,31 +29,15 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 
 		PROGRESS, PROGRESS_GREEN, PROGRESS_YELLOW, PROGRESS_RED, PROGRESS_BLUE,
 
-		STANDBY, STANDBY_YELLOW;
+		STANDBY, STANDBY_GREEN, STANDBY_YELLOW;
 	}
 
 	public static enum GRADIENT_COLORS {
-		GREEN, YELLOW, RED, BLUE;
-
-		private GRADIENT_COLORS() {
-
-		}
-
-		private int[] colors = new int[3];
-
-		public void setColors(int start, int center, int end) {
-			colors[0] = start;
-			colors[1] = center;
-			colors[2] = end;
-		}
-
-		public int[] getColors() {
-			return colors;
-		}
+		GREEN, YELLOW, RED, BLUE, WHITE;
 	}
 
 	private STATES mState;
-	private GradientDrawable drawable;
+	private GradientDrawable[] drawable;
 	private ObjectAnimator pulse;
 	private AnimatorSet flash;
 	private AnimatorSet progress;
@@ -79,13 +63,14 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 		setAlpha(0.0f);
 		setScaleY(1.0f);
 		//		setPivotY(256);
-		drawable = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator);
-		setImageDrawable(drawable);
+		drawable = new GradientDrawable[GRADIENT_COLORS.values().length];
 
-		GRADIENT_COLORS.GREEN.setColors(getContext().getResources().getColor(R.color.green_start), getContext().getResources().getColor(R.color.green_center), getContext().getResources().getColor(R.color.green_end));
-		GRADIENT_COLORS.YELLOW.setColors(getContext().getResources().getColor(R.color.yellow_start), getContext().getResources().getColor(R.color.yellow_center), getContext().getResources().getColor(R.color.yellow_end));
-		GRADIENT_COLORS.RED.setColors(getContext().getResources().getColor(R.color.red_start), getContext().getResources().getColor(R.color.red_center), getContext().getResources().getColor(R.color.red_end));
-		GRADIENT_COLORS.BLUE.setColors(getContext().getResources().getColor(R.color.blue_start), getContext().getResources().getColor(R.color.blue_center), getContext().getResources().getColor(R.color.blue_end));
+		drawable[GRADIENT_COLORS.BLUE.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_blue);
+		drawable[GRADIENT_COLORS.GREEN.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_green);
+		drawable[GRADIENT_COLORS.YELLOW.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_yellow);
+		drawable[GRADIENT_COLORS.RED.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_red);
+		drawable[GRADIENT_COLORS.WHITE.ordinal()] = (GradientDrawable) context.getResources().getDrawable(R.drawable.gradient_indicator_white);
+		setImageDrawable(drawable[GRADIENT_COLORS.BLUE.ordinal()]);
 
 		flash = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.indicator_flash);
 		flash.setTarget(this);
@@ -113,45 +98,50 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 				break;
 			case FLASH_GREEN:
 				activeAnimation = flash;
-				drawable.setColors(GRADIENT_COLORS.GREEN.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.GREEN.ordinal()]);
 				activeAnimation.start();
 				break;
 			case FLASH_YELLOW:
 				activeAnimation = flash;
-				drawable.setColors(GRADIENT_COLORS.YELLOW.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.YELLOW.ordinal()]);
 				activeAnimation.start();
 				break;
 			case FLASH_RED:
 				activeAnimation = flash;
-				drawable.setColors(GRADIENT_COLORS.RED.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.RED.ordinal()]);
 				activeAnimation.start();
 				break;
 			case FLASH_BLUE:
 				activeAnimation = flash;
-				drawable.setColors(GRADIENT_COLORS.BLUE.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.BLUE.ordinal()]);
 				activeAnimation.start();
 				break;
 			case PROGRESS:
 			case PROGRESS_BLUE:
 				activeAnimation = progress;
 				setPivotY(this.getMeasuredHeight());
-				drawable.setColors(GRADIENT_COLORS.BLUE.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.BLUE.ordinal()]);
 				activeAnimation.start();
 				break;
 			case PROGRESS_YELLOW:
 				activeAnimation = progress;
 				setPivotY(this.getMeasuredHeight());
-				drawable.setColors(GRADIENT_COLORS.YELLOW.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.YELLOW.ordinal()]);
 				activeAnimation.start();
 				break;
 			case STANDBY:
 				activeAnimation = pulse;
-				drawable.setColors(GRADIENT_COLORS.GREEN.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.BLUE.ordinal()]);
+				activeAnimation.start();
+				break;
+			case STANDBY_GREEN:
+				activeAnimation = pulse;
+				setImageDrawable(drawable[GRADIENT_COLORS.GREEN.ordinal()]);
 				activeAnimation.start();
 				break;
 			case STANDBY_YELLOW:
 				activeAnimation = pulse;
-				drawable.setColors(GRADIENT_COLORS.YELLOW.getColors());
+				setImageDrawable(drawable[GRADIENT_COLORS.YELLOW.ordinal()]);
 				activeAnimation.start();
 				break;
 			default:
@@ -206,7 +196,7 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 				break;
 			case HELP_INCOMMING:
 				mState = STATES.HELP_INCOMMING;
-				startAnimation(ANIMATION.STANDBY);
+				startAnimation(ANIMATION.STANDBY_GREEN);
 				break;
 			default:
 				break;
