@@ -156,7 +156,6 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 	@Override
 	protected void onPause() {
-		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
@@ -170,6 +169,7 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 	}
 
 	private void exit() {
+		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 		finish();
 	}
 
