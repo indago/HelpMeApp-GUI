@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- M-DPI -->
     <!-- HELP EE -->
     <dimen name="help_ee_indicator_margin_top">278dp</dimen>
 
@@ -14,6 +15,6 @@
 	<dimen name="dashboard_infoarea_margin_top">90dp</dimen>
 	<dimen name="dashboard_infoarea_layout_width">250dp</dimen>
     <dimen name="dashboard_infoarea_layout_height">114dp</dimen>
-    <dimen name="dashbaord_infoarea_textSize">6pt</dimen>
+    <dimen name="dashbaord_infoarea_textSize">8pt</dimen>
 
 </resources>
