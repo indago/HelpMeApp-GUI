@@ -141,7 +141,8 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 	
 	protected void onDestroy() {
 		mHandler.post((RabbitMQManager.getInstance().unbindFromService(getApplicationContext())));
-	};
+		super.onDestroy();
+	}
 
 	@Override
 	public void drawThis(Object object) {
