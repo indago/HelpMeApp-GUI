@@ -47,6 +47,6 @@
     <string name="dialog_select_your_role_title"><![CDATA[<font color="#ffffffff">Welcome<br>to the <b><font color="#00a9e8">!HELP</font>ME</b> App!</font>]]></string>
     <string name="dialog_select_your_role_text"><![CDATA[<font color="#ffffffff">Please select your role as help providing or help seeking person.</font>]]></string>
     <string name="dialog_call_dismiss_title"><![CDATA[<font color="red"><b>WARNING:</b></font>]]></string>
-    <string name="dialog_call_dismiss_text"><![CDATA[<font color="#ffffffff"><br>You're about to dismiss this call!<br>Are you sure?</font>]]></string>
+    <string name="dialog_call_dismiss_text"><![CDATA[<font color="#ffffffff"><br>You\'re about to dismiss this call!<br>Are you sure?</font>]]></string>
 
 </resources>
