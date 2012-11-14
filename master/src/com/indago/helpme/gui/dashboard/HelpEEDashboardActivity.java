@@ -269,7 +269,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 					@Override
 					public void run() {
 						mStateMachine.setState(STATES.FINISHED);
-						exit();
+//						exit();
 					}
 				});
 			}
