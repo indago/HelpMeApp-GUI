@@ -296,7 +296,6 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 		final Dialog dialog = new Dialog(context);
 		dialog.setContentView(R.layout.dialog_help_er_in_range);
-		dialog.setTitle("Helper In Range!");
 
 		ImageView imageView;
 		TextView text;

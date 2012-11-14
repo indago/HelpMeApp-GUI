@@ -179,6 +179,9 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 			/*
 			 * Start Call Details Activity
 			 */
+			MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
+			MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
+
 			mHandler.post(startHelpERDashboard((UserInterface) object));
 		} else if(object instanceof ArrayList<?>) {
 			/*
