@@ -7,6 +7,15 @@ import com.indago.helpme.R;
 
 public class ImageUtility {
 	private ImageUtility() {}
+	
+	public static Drawable[] retrieveDrawables(Context context, String identifier) {
+		Drawable[] drawables = new Drawable[4];
+		drawables[0] = context.getResources().getDrawable(R.drawable.user_picture_background);
+		drawables[1] = ImageUtility.retrieveDrawable(context, identifier);
+		drawables[2] = context.getResources().getDrawable(R.drawable.user_picture_overlay);
+		drawables[3] = context.getResources().getDrawable(R.drawable.user_picture_border);
+		return drawables;
+	}
 
 	public static Drawable retrieveDrawable(Context context, String identifier) {
 

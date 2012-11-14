@@ -90,15 +90,9 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 		age.setText(Html.fromHtml(age.getText() + " " + mUser.getAge()));
 		TextView gender = (TextView) vg.findViewById(R.id.tv_help_ee_gender);
 		gender.setText(Html.fromHtml(gender.getText() + " " + mUser.getGender()));
-
-		Drawable[] drawables = new Drawable[4];
-		drawables[0] = getResources().getDrawable(R.drawable.user_picture_background);
-		drawables[1] = ImageUtility.retrieveDrawable(this, mUser.getPicture());
-		drawables[2] = getResources().getDrawable(R.drawable.user_picture_overlay);
-		drawables[3] = getResources().getDrawable(R.drawable.user_picture_border);
-
+		
 		ImageView picture = (ImageView) vg.findViewById(R.id.iv_help_ee_picture);
-		picture.setImageDrawable(new LayerDrawable(drawables));
+		picture.setImageDrawable(new LayerDrawable(ImageUtility.retrieveDrawables(getApplicationContext(), mUser.getPicture())));
 
 		Button handle = (Button) ((LinearLayout) mSlidingDrawer.getHandle()).getChildAt(0);
 		handle.setText("DRAG DOWN FOR MORE INFORMATION!");

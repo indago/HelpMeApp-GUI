@@ -3,8 +3,7 @@
     <!-- Generic -->
     <string name="helper">Help Providing</string>
     <string name="helpee">Help Seeking</string>
-    <string name="seeker_in_range_title">Help Seeker is in Range</string>
-    <string name="seeker_in_range_text">The Help Seeker you are looking for is in Range to you, you should be able to spot him/her</string>
+    
     <string name="app_name">inDAgo HelpMe</string>
     <string name="default_content_description">default content</string>
 
@@ -35,6 +34,8 @@
     <string name="text_hint_providing_incomming_call"><![CDATA[<b>Incoming Help Call!</b><br>Slide top menu down for more information!]]></string>
     <string name="title_activity_help_er_controlcenter">HelpERControlcenterActivity</string>
     <string name="help_er_dashboard_countdown_from">60</string>
+    <string name="helper_in_range_title">You are in Range to <![CDATA[<font color="#00a9e8"><b>[Name] </b></font>]]></string>
+    <string name="helper_in_range_text">You should be able to spot [gender]</string>
 
     <!-- CONTENT DESCRIPTIONS -->
     <string name="content_description">no content description provided yet!</string>

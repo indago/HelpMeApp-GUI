@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -80,14 +81,8 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		TextView gender = (TextView) findViewById(R.id.tv_help_ee_gender);
 		gender.setText(Html.fromHtml(gender.getText() + " " + mUser.getGender()));
 
-		Drawable[] drawables = new Drawable[4];
-		drawables[0] = getResources().getDrawable(R.drawable.user_picture_background);
-		drawables[1] = ImageUtility.retrieveDrawable(this, mUser.getPicture());
-		drawables[2] = getResources().getDrawable(R.drawable.user_picture_overlay);
-		drawables[3] = getResources().getDrawable(R.drawable.user_picture_border);
-
 		ImageView picture = (ImageView) findViewById(R.id.iv_help_ee_picture);
-		picture.setImageDrawable(new LayerDrawable(drawables));
+		picture.setImageDrawable(new LayerDrawable(ImageUtility.retrieveDrawables(getApplicationContext(), mUser.getPicture())));
 		picture.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -172,9 +167,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		AlertDialog alertDialog = alertDialogBuilder.create();
 
 		// show it
-		
-			alertDialog.show();
-		
+
+		alertDialog.show();
+
 		//startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.HelpERControlcenterActivity.class), null);
 
 		//super.onBackPressed();
@@ -196,21 +191,21 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 					zoom = true;
 
 				if(userInterface.getId().equalsIgnoreCase(UserManager.getInstance().thisUser().getId())) {
-					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject() , ImageUtility.retrieveDrawable(getApplicationContext(), userInterface.getPicture()));
+					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject() , ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
 					overlayitem.setMarker(mMapsPinGreen);
 
 				} else {// a help seeker
-					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null,userInterface.getJsonObject(), ImageUtility.retrieveDrawable(getApplicationContext(), userInterface.getPicture()));
+					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null,userInterface.getJsonObject(), ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
 					overlayitem.setMarker(mMapsPinOrange);
 
 				}
 
 
-					
-				
+
+
 				hashMapOverlayItem.put(userInterface.getId(), overlayitem);
 				overlay.addOverlay(overlayitem);
-				
+
 				if (zoom) {
 					setZoomLevel();
 				}
@@ -220,7 +215,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		};
 	}
 
-	private Runnable showInRangeMessageBox(final Context context) {
+	private Runnable showInRangeMessageBox(final Context context, final Task task) {
 		show = true;
 		return new Runnable() {
 
@@ -230,7 +225,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				HistoryManager.getInstance().stopTask();
 				mHandler.post(HistoryManager.getInstance().saveHistory(getApplicationContext()));
 
-				Dialog dialog = buildDialog(context);
+				Dialog dialog = buildDialog(context, task);
 				try {
 					dialog.show();
 				} catch(Exception exception) {
@@ -248,7 +243,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		} else if(object instanceof Task) {
 			Task task = (Task) object;
 			if(!show) {
-				mHandler.post(showInRangeMessageBox(this));
+				mHandler.post(showInRangeMessageBox(this, task));
 			}
 		}
 
@@ -299,20 +294,50 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		}
 	}
 
-	private Dialog buildDialog(Context context) {
-		AlertDialog.Builder dlgAlert = new AlertDialog.Builder(context);
-		dlgAlert.setTitle(getString(R.string.seeker_in_range_title));
-		dlgAlert.setMessage(getString(R.string.seeker_in_range_text));
-		dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	private Dialog buildDialog(Context context, Task task) {
+		UserInterface userInterface = task.getUser();
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+		Dialog dialog = dialogBuilder.show();
+		dialog.setContentView(R.layout.dialog_help_er_in_range);
+//		dialog.setCanceledOnTouchOutside(false);
+
+		ImageView imageView; TextView text; String string;Button button;
+		
+		Drawable[] drawables = new Drawable[4];
+		
+		imageView = (ImageView) dialog.findViewById(R.id.dialog_helper_in_range_picture);
+		imageView.setImageDrawable(new LayerDrawable(ImageUtility.retrieveDrawables(context, userInterface.getPicture())));
+
+		text = (TextView) dialog.findViewById(R.id.dialog_helper_in_range_title);
+		string = context.getString(R.string.helper_in_range_title);
+		string = string.replace("[Name]", userInterface.getName());
+		text.setText(Html.fromHtml(string));
+
+		text = (TextView) dialog.findViewById(R.id.dialog_helper_in_range_text);
+		string = context.getString(R.string.helper_in_range_text);
+		
+		if (userInterface.getGender().equalsIgnoreCase("female")) {
+			string = string.replace("[gender]", "her");
+		}else {
+			string = string.replace("[gender]", "him");
+		}
+		text.setText(Html.fromHtml(string));
+
+
+		button = (Button) dialog.findViewById(R.id.dialog_helper_in_range_button);
+		button.setText("OK");
+		button.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(), HelpERControlcenterActivity.class);
 				startActivity(intent);
 				finish();
-			}
 
+			}
 		});
-		return dlgAlert.create();
+
+		return dialog;
 	}
 }
