@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -150,9 +151,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				HistoryManager.getInstance().getTask().setFailed();
 				HistoryManager.getInstance().stopTask();
 
-				//startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
+				startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
 
-				setResult(RESULT_CANCELED);
+//				setResult(RESULT_CANCELED);
 				finish();
 			}
 		}).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -222,9 +223,8 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				HistoryManager.getInstance().stopTask();
 				mHandler.post(HistoryManager.getInstance().saveHistory(getApplicationContext()));
 
-				Dialog dialog = buildDialog(context, task);
 				try {
-					dialog.show();
+					buildDialog(context, task).show();
 				} catch(Exception exception) {
 					Log.e(LOGTAG, exception.toString());
 				}
@@ -293,15 +293,11 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 	private Dialog buildDialog(Context context, Task task) {
 		UserInterface userInterface = task.getUser();
-//		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-//		LayoutInflater inflater = LayoutInflater.from(context);
-//		Dialog dialog = builder.setCancelable(false).create();
-
-		Dialog dialog = new Dialog(getApplicationContext());
+		final Dialog dialog = new Dialog(context);
 		dialog.setContentView(R.layout.dialog_help_er_in_range);
-		dialog.setCanceledOnTouchOutside(false);
-//
+		dialog.setTitle("Helper In Range!");
+
 		ImageView imageView;
 		TextView text;
 		String string;
@@ -331,7 +327,8 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 			@Override
 			public void onClick(View v) {
-				setResult(RESULT_OK);
+				startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
+				show = false;
 				finish();
 			}
 		});

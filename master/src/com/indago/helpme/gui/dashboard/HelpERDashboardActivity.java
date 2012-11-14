@@ -3,7 +3,6 @@ package com.indago.helpme.gui.dashboard;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,7 +61,7 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 		mUser = UserManager.getInstance().getUserById(userID);
 
 		if(mUser == null) {
-			throw new NullPointerException(LOGTAG + ": User with ID " + userID + " could not be retrieved from Extras-Bundle at onCreate()");
+			Log.e(LOGTAG, ": User with ID " + userID + " could not be retrieved from Extras-Bundle at onCreate()");
 		}
 
 		mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -90,7 +89,7 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 		age.setText(Html.fromHtml(age.getText() + " " + mUser.getAge()));
 		TextView gender = (TextView) vg.findViewById(R.id.tv_help_ee_gender);
 		gender.setText(Html.fromHtml(gender.getText() + " " + mUser.getGender()));
-		
+
 		ImageView picture = (ImageView) vg.findViewById(R.id.iv_help_ee_picture);
 		picture.setImageDrawable(new LayerDrawable(ImageUtility.retrieveDrawables(getApplicationContext(), mUser.getPicture())));
 
@@ -143,7 +142,6 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 								Intent intent = new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERCallDetailsActivity.class);
 								intent.putExtra("USER_ID", mUser.getId());
 								startActivity(intent);
-
 								finish();
 							} else if(mStateMachine.getState() == STATES.DECLINED) {
 								Toast.makeText(getApplicationContext(), "Too bad! Maybe next time!", Toast.LENGTH_LONG).show();
