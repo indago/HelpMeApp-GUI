@@ -5,9 +5,14 @@ import android.graphics.drawable.Drawable;
 
 import com.indago.helpme.R;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class ImageUtility {
 	private ImageUtility() {}
-	
+
 	public static Drawable[] retrieveDrawables(Context context, String identifier) {
 		Drawable[] drawables = new Drawable[4];
 		drawables[0] = context.getResources().getDrawable(R.drawable.user_picture_background);

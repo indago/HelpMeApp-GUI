@@ -1,8 +1,6 @@
 <resources>
 
     <!-- Generic -->
-    <string name="helper">Help Providing</string>
-    <string name="helpee">Help Seeking</string>
     <string name="app_name">inDAgo HelpMe</string>
     <string name="default_content_description">default content</string>
 
@@ -11,7 +9,7 @@
     <string name="tab_helpee">Help Seeking</string>
     <string name="title_activity_log_in">HelpMe App</string>
     <string name="title_activity_help_me_button">HelpMeButtonActivity</string>
-    <string name="welcome">Willkommen bei der inDAgo HelpMe App</string>
+    <string name="welcome">Welcome to the inDAgo HelpMe App.</string>
 
     <!-- SEEKING HELP STRINGS -->
     <string name="text_hint_help_ee_press_green_button"><![CDATA[<b>NEED HELP?</b><br/>Press the <font color="green"><b>SOS</b></font> button!]]></string>
@@ -25,7 +23,8 @@
     <string name="help_ee_details_name"><![CDATA[<font color="#00a9e8"><b>Name: </b></font>]]></string>
     <string name="help_ee_details_age"><![CDATA[<font color="#00a9e8"><b>Age: </b></font>]]></string>
     <string name="help_ee_details_gender"><![CDATA[<font color="#00a9e8"><b>Gender: </b></font>]]></string>
-    <string name="help_is_underway"><![CDATA[<b>HELP IS ON THE WAY!]]></string>
+    <string name="help_is_underway"><![CDATA[<b>HELP IS ON THE WAY!</b>]]></string>
+    <string name="help_has_arrived"><![CDATA[<b>HELP HAS ARRIVED!</b><br>Press the <font color="green">Smiley</font> button!<br>End of Demo]]></string>
 
     <!-- PROVIDIN HELP STRINGS -->
     <string name="help_er_controlcenter_tab_history">HISTORY</string>
@@ -45,8 +44,8 @@
     <string name="dialog_calldetails_cancel_warning_title"><![CDATA[<font color="#ffffffff">Warning!<br>Canceling Support Offer!</font>]]></string>
     <string name="dialog_calldetails_cancel_warning_text"><![CDATA[<font color="#ffffffff">Do you really want to cancel your current support offer?</font>]]></string>
     <string name="dialog_select_your_role_title"><![CDATA[<font color="#ffffffff">Welcome<br>to the <b><font color="#00a9e8">!HELP</font>ME</b> App!</font>]]></string>
-    <string name="dialog_select_your_role_text"><![CDATA[<font color="#ffffffff">Please select your role as help providing or help seeking person.</font>]]></string>
+    <string name="dialog_select_your_role_text"><![CDATA[<font color="#ffffffff">Please select your role either as help providing or help seeking person.</font>]]></string>
     <string name="dialog_call_dismiss_title"><![CDATA[<font color="red"><b>WARNING:</b></font>]]></string>
-    <string name="dialog_call_dismiss_text"><![CDATA[<font color="#ffffffff"><br>You\'re about to dismiss this call!<br>Are you sure?</font>]]></string>
+    <string name="dialog_call_dismiss_text"><![CDATA[<font color="#ffffffff">You\'re about to dismiss this call!<br>Are you sure?</font>]]></string>
 
 </resources>

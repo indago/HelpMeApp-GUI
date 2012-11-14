@@ -3,7 +3,11 @@ package com.indago.helpme.gui.dashboard.statemachine;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public abstract class AStateMachine implements IStateMachine {
 
 	protected volatile ArrayList<IStateAwareView> observerList;

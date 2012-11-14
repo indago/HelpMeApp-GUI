@@ -2,6 +2,11 @@ package com.indago.helpme.gui.dashboard.statemachine;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class HelpEEStateMachine extends AStateMachine {
 	private static String LOGTAG = HelpEEStateMachine.class.getSimpleName();
 
@@ -50,6 +55,9 @@ public class HelpEEStateMachine extends AStateMachine {
 				mState = STATES.FINISHED;
 				break;
 			case HELP_INCOMMING:
+				mState = STATES.HELP_ARRIVED;
+				break;
+			case HELP_ARRIVED:
 				mState = STATES.FINISHED;
 				break;
 			default:

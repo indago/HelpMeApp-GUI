@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
@@ -32,15 +31,20 @@ import com.android.helpme.demo.utils.ThreadPool;
 import com.android.helpme.demo.utils.User;
 import com.android.helpme.demo.utils.position.Position;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.indago.helpme.R;
+import com.indago.helpme.gui.ATemplateMapActivity;
 import com.indago.helpme.gui.list.AboutListAdapter;
 
-public class HelpERControlcenterActivity extends MapActivity implements DrawManagerInterface {
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
+public class HelpERControlcenterActivity extends ATemplateMapActivity implements DrawManagerInterface {
 
 	private Handler mHandler;
 	private TabHost mTabHost;
@@ -53,8 +57,6 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help_er_controlcenter);
 
@@ -68,11 +70,6 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 				exit();
 			}
 		});
-
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
-
-		mHandler.post(HistoryManager.getInstance().loadHistory(getApplicationContext()));
 
 		initTabs();
 		initMaps();
@@ -163,9 +160,13 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+
+	@Override
 	public void onBackPressed() {
 		exit();
-		super.onBackPressed();
 	}
 
 	private void exit() {

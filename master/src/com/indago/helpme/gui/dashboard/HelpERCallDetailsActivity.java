@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,15 +30,20 @@ import com.android.helpme.demo.overlay.MapOverlayItem;
 import com.android.helpme.demo.utils.Task;
 import com.android.helpme.demo.utils.User;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.indago.helpme.R;
+import com.indago.helpme.gui.ATemplateMapActivity;
 import com.indago.helpme.gui.util.ImageUtility;
 
-public class HelpERCallDetailsActivity extends MapActivity implements DrawManagerInterface {
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
+public class HelpERCallDetailsActivity extends ATemplateMapActivity implements DrawManagerInterface {
 	private static final String LOGTAG = HelpERCallDetailsActivity.class.getSimpleName();
 	protected static DisplayMetrics metrics = new DisplayMetrics();
 	private Handler mHandler;
@@ -54,13 +58,6 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-								WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help_er_call_details);
 

@@ -11,6 +11,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
@@ -29,6 +30,11 @@ import com.indago.helpme.gui.dashboard.views.HelpEEButtonView;
 import com.indago.helpme.gui.dashboard.views.HelpEEHintView;
 import com.indago.helpme.gui.dashboard.views.HelpEEProgressView;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class HelpEEDashboardActivity extends ATemplateActivity implements DrawManagerInterface {
 	private static final String LOGTAG = HelpEEDashboardActivity.class.getSimpleName();
 
@@ -45,8 +51,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 	private Vibrator mVibrator;
 	private ResetTimer mIdleTimer;
-
-	private MediaPlayer mPlayer;
+	private MediaPlayerExitTimer mMP3Timer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,28 +89,46 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 	@Override
 	public void onBackPressed() {
-		exit();
-	}
-
-	private void exit() {
 		if(mStateMachine.getState() == STATES.FINISHED || mStateMachine.getState() == STATES.SHIELDED) {
-
-			if(mIdleTimer != null) {
-				mIdleTimer.dismiss();
-			}
-
-			if(mPlayer != null && mPlayer.isPlaying()) {
-				mPlayer.stop();
-			}
-
-			orchestrator.removeDrawManager(DRAWMANAGER_TYPE.SEEKER);
-			orchestrator.removeDrawManager(DRAWMANAGER_TYPE.HELPERCOMMING);
-			ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
-			finish();
+			exit();
 		}
 	}
 
+	private void exit() {
+
+		if(mIdleTimer != null) {
+			mIdleTimer.dismiss();
+		}
+
+		if(mMP3Timer != null) {
+			mMP3Timer.dismiss();
+		}
+
+		orchestrator.removeDrawManager(DRAWMANAGER_TYPE.SEEKER);
+		orchestrator.removeDrawManager(DRAWMANAGER_TYPE.HELPERCOMMING);
+		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
+		finish();
+	}
+
 	private void init() {
+		final MediaPlayer player = MediaPlayer.create(this, R.raw.callcenter);
+
+		mButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(mStateMachine.getState() == STATES.HELP_ARRIVED) {
+					mHandler.post(new Runnable() {
+
+						@Override
+						public void run() {
+							exit();
+						}
+					});
+				}
+			}
+		});
+
 		mButton.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -113,7 +136,9 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 				if(v instanceof HelpEEButtonView) {
 					switch(event.getAction()) {
 						case MotionEvent.ACTION_DOWN:
-							if(mStateMachine.getState() != STATES.LOCKED && mStateMachine.getState() != STATES.FINISHED) {
+							if(mStateMachine.getState() != STATES.LOCKED &&
+									mStateMachine.getState() != STATES.HELP_ARRIVED &&
+									mStateMachine.getState() != STATES.FINISHED) {
 
 								mStateMachine.nextState();
 
@@ -129,13 +154,8 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 											mIdleTimer.dismiss();
 										}
 										break;
-									case HELP_INCOMMING:
-										mStateMachine.setState(STATES.FINISHED);
-
-										exit();
-										break;
 									case CALLCENTER_PRESSED:
-										(new ExitAfterCCDemo()).execute(mPlayer);
+										(new MediaPlayerExitTimer()).execute(player);
 
 										mStateMachine.setState(STATES.FINISHED);
 
@@ -147,16 +167,16 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 										break;
 								}
 
-								mVibrator.vibrate(10);
+								mVibrator.vibrate(15);
 
 							}
 
 							break;
 						case MotionEvent.ACTION_UP:
 							if(mStateMachine.getState() == STATES.PRESSED) {
-								HistoryManager.getInstance().startNewTask();
 								ButtonStateChangeDelay mBRTimer = new ButtonStateChangeDelay();
 								mBRTimer.execute(STATES.LOCKED);
+								HistoryManager.getInstance().startNewTask();
 							}
 							break;
 					}
@@ -168,7 +188,6 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 		});
 
 		orchestrator = MessageOrchestrator.getInstance();
-		mPlayer = MediaPlayer.create(this, R.raw.callcenter);
 	}
 
 	private void reset() {
@@ -271,7 +290,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 					@Override
 					public void run() {
-						mStateMachine.setState(STATES.FINISHED);
+						mStateMachine.setState(STATES.HELP_ARRIVED);
 //						exit();
 					}
 				});
@@ -387,24 +406,33 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 	}
 
-	class ExitAfterCCDemo extends AsyncTask<MediaPlayer, Void, Void> {
+	class MediaPlayerExitTimer extends AsyncTask<MediaPlayer, Void, Void> {
+
+		private MediaPlayer player;
+		private volatile boolean dismissed = false;
+
+		synchronized public void dismiss() {
+			dismissed = true;
+		}
 
 		@Override
 		protected Void doInBackground(MediaPlayer... params) {
-			final MediaPlayer player = params[0];
+			player = params[0];
 
 			try {
-				Thread.sleep(1000);
-
-				player.start();
-
-				while(player.isPlaying()) {
+				if(!dismissed && player != null) {
 					Thread.sleep(1000);
+
+					player.start();
+
+					while(!dismissed && player.isPlaying()) {
+						Thread.sleep(1000);
+					}
 				}
 			} catch(InterruptedException e) {
 				e.printStackTrace();
 			} catch(IllegalStateException e) {
-				Log.e(LOGTAG, "ExitAfterCCDemo Thread - MediaPlayer throws IllegalStateException!");
+				Log.e(LOGTAG, "MediaPlayerExitTimer Thread - MediaPlayer throws IllegalStateException!");
 				e.printStackTrace();
 			}
 
@@ -413,11 +441,16 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 		@Override
 		protected void onPostExecute(Void result) {
+			if(dismissed && player != null) {
+				player.seekTo(player.getDuration());
+				player.stop();
+				player.release();
+			}
+
 			super.onPostExecute(result);
 
 			exit();
 		}
-
 	}
 
 }

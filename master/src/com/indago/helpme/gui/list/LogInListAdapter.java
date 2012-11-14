@@ -17,6 +17,11 @@ import com.android.helpme.demo.interfaces.UserInterface;
 import com.indago.helpme.R;
 import com.indago.helpme.gui.util.ImageUtility;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class LogInListAdapter extends ArrayAdapter<UserInterface> {
 
 	private Context mContext;

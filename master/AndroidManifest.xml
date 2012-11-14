@@ -22,7 +22,7 @@
             android:name=".gui.HelpMeApp"
             android:label="@string/title_activity_log_in"
             android:clearTaskOnLaunch="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,6 +51,7 @@
         <activity
             android:name=".gui.dashboard.HelpERCallDetailsActivity"
             android:label="@string/title_activity_help_me_button"
+            android:noHistory="true"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -59,6 +60,7 @@
         <activity
             android:name=".gui.dashboard.HelpERControlcenterActivity"
             android:label="@string/title_activity_help_er_controlcenter"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

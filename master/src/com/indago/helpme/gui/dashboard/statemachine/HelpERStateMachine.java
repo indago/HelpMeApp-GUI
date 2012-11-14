@@ -2,8 +2,11 @@ package com.indago.helpme.gui.dashboard.statemachine;
 
 import java.util.ArrayList;
 
-
-
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class HelpERStateMachine extends AStateMachine {
 	private static String LOGTAG = HelpERStateMachine.class.getSimpleName();
 
@@ -26,7 +29,6 @@ public class HelpERStateMachine extends AStateMachine {
 		observerList = new ArrayList<IStateAwareView>(5);
 		mState = STATES.DEFAULT;
 	}
-
 
 	@Override
 	synchronized public void setState(Enum<?> state) {

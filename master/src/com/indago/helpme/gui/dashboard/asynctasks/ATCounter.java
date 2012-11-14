@@ -1,5 +1,10 @@
 package com.indago.helpme.gui.dashboard.asynctasks;
 
+/**
+ * 
+ * @author martinmajewski
+ *
+ */
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;

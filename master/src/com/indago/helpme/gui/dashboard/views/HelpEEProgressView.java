@@ -21,6 +21,11 @@ import com.indago.helpme.gui.dashboard.statemachine.IStateAwareView;
 import com.indago.helpme.gui.dashboard.statemachine.IStateMachine;
 import com.indago.helpme.gui.dashboard.statemachine.STATES;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class HelpEEProgressView extends ImageView implements IStateAwareView {
 	private static final String LOGTAG = HelpEEProgressView.class.getSimpleName();
 
@@ -129,6 +134,12 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 				setImageDrawable(drawable[GRADIENT_COLORS.YELLOW.ordinal()]);
 				activeAnimation.start();
 				break;
+			case PROGRESS_GREEN:
+				activeAnimation = progress;
+				setPivotY(this.getMeasuredHeight());
+				setImageDrawable(drawable[GRADIENT_COLORS.GREEN.ordinal()]);
+				activeAnimation.start();
+				break;
 			case STANDBY:
 				activeAnimation = pulse;
 				setImageDrawable(drawable[GRADIENT_COLORS.BLUE.ordinal()]);
@@ -196,7 +207,14 @@ public class HelpEEProgressView extends ImageView implements IStateAwareView {
 				break;
 			case HELP_INCOMMING:
 				mState = STATES.HELP_INCOMMING;
+				startAnimation(ANIMATION.PROGRESS_GREEN);
+				break;
+			case HELP_ARRIVED:
+				mState = STATES.HELP_ARRIVED;
 				startAnimation(ANIMATION.STANDBY_GREEN);
+				break;
+			case FINISHED:
+				mState = STATES.FINISHED;
 				break;
 			default:
 				break;

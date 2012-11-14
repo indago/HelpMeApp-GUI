@@ -11,6 +11,11 @@ import com.indago.helpme.gui.dashboard.statemachine.IStateAwareView;
 import com.indago.helpme.gui.dashboard.statemachine.IStateMachine;
 import com.indago.helpme.gui.dashboard.statemachine.STATES;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class HelpERHintView extends TextView implements IStateAwareView {
 	private static final String LOGTAG = HelpERHintView.class.getSimpleName();
 

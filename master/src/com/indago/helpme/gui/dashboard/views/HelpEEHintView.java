@@ -12,6 +12,11 @@ import com.indago.helpme.gui.dashboard.statemachine.IStateAwareView;
 import com.indago.helpme.gui.dashboard.statemachine.IStateMachine;
 import com.indago.helpme.gui.dashboard.statemachine.STATES;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class HelpEEHintView extends TextView implements IStateAwareView {
 	private static final String LOGTAG = HelpEEHintView.class.getSimpleName();
 
@@ -80,6 +85,11 @@ public class HelpEEHintView extends TextView implements IStateAwareView {
 				mState = STATES.HELP_INCOMMING;
 				setTextAsHTML(getResources().getString(R.string.help_is_underway));
 				break;
+			case HELP_ARRIVED:
+				mState = STATES.HELP_ARRIVED;
+				setTextAsHTML(getResources().getString(R.string.help_has_arrived));
+			case FINISHED:
+				mState = STATES.FINISHED;
 			default:
 				break;
 		}

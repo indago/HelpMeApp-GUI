@@ -1,12 +1,16 @@
 package com.indago.helpme.gui.dashboard.statemachine;
 
-
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public interface IStateMachine {
 
 	public Enum<?> nextState();
 
 	public Enum<?> getState();
-	
+
 	public void setState(Enum<?> state);
 
 	public void updateAll();

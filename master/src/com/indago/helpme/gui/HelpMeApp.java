@@ -31,6 +31,12 @@ import com.android.helpme.demo.utils.User;
 import com.indago.helpme.R;
 import com.indago.helpme.gui.list.LogInListAdapter;
 
+/**
+ * 
+ * @author martinmajewski
+ * @author andreaswieland
+ * 
+ */
 public class HelpMeApp extends ATemplateActivity implements OnItemClickListener, DrawManagerInterface {
 	private static final String LOGTAG = HelpMeApp.class.getSimpleName();
 
@@ -120,9 +126,8 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		initBackend();
 
 		ThreadPool.runTask(RabbitMQManager.getInstance().bindToService(this));
+		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 		ThreadPool.runTask(UserManager.getInstance().readUserChoice(getApplicationContext()));
-//		ThreadPool.runTask(RabbitMQManager.getInstance().)
-		//ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 	}
 
 	@Override

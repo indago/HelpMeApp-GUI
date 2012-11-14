@@ -33,6 +33,11 @@ import com.indago.helpme.gui.dashboard.views.HelpERHintView;
 import com.indago.helpme.gui.dashboard.views.HelpERProgressView;
 import com.indago.helpme.gui.util.ImageUtility;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class HelpERDashboardActivity extends ATemplateActivity {
 	private static final String LOGTAG = HelpERDashboardActivity.class.getSimpleName();
 

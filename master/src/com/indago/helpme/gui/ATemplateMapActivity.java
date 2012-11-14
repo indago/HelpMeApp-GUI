@@ -1,6 +1,5 @@
 package com.indago.helpme.gui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -9,13 +8,15 @@ import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.maps.MapActivity;
+
 /**
  * 
  * @author martinmajewski
  * 
  */
-public abstract class ATemplateActivity extends Activity implements OnSystemUiVisibilityChangeListener {
-	private static final String LOGTAG = ATemplateActivity.class.getSimpleName();
+public abstract class ATemplateMapActivity extends MapActivity implements OnSystemUiVisibilityChangeListener {
+	private static final String LOGTAG = ATemplateMapActivity.class.getSimpleName();
 	protected static DisplayMetrics metrics = new DisplayMetrics();
 
 	@Override

@@ -13,6 +13,11 @@ import android.widget.ImageView;
 
 import com.indago.helpme.R;
 
+/**
+ * 
+ * @author martinmajewski
+ * 
+ */
 public class AboutListAdapter extends ArrayAdapter<Drawable> {
 
 	private Context mContext;
