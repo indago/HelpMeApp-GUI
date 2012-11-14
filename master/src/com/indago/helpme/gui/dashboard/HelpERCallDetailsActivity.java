@@ -293,12 +293,15 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 	private Dialog buildDialog(Context context, Task task) {
 		UserInterface userInterface = task.getUser();
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+//		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-		Dialog dialog = dialogBuilder.show();
+//		LayoutInflater inflater = LayoutInflater.from(context);
+//		Dialog dialog = builder.setCancelable(false).create();
+
+		Dialog dialog = new Dialog(getApplicationContext());
 		dialog.setContentView(R.layout.dialog_help_er_in_range);
 		dialog.setCanceledOnTouchOutside(false);
-
+//
 		ImageView imageView;
 		TextView text;
 		String string;
