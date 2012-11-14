@@ -3,16 +3,16 @@
     android:id="@+id/fl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/default_background">
-    
+    android:background="@drawable/default_background" >
+
     <com.indago.helpme.gui.dashboard.views.HelpEEProgressView
         android:id="@+id/iv_help_ee_indicator"
-        android:layout_width="290dp"
-        android:layout_height="128dp"
+        android:layout_width="@dimen/dashboard_indicator_layout_width"
+        android:layout_height="@dimen/dashboard_indicator_layout_height"
         android:layout_gravity="center_horizontal"
-        android:scaleType="center"
-        android:layout_marginTop="@dimen/help_ee_indicator_margin_top"
-        android:contentDescription="@string/content_description_help_ee_indicator_bars" />
+        android:layout_marginTop="@dimen/dashboard_indicator_margin_top"
+        android:contentDescription="@string/content_description_help_ee_indicator_bars"
+        android:scaleType="center" />
 
     <ImageView
         android:id="@+id/iv_help_ee_buttonboard_mask"
@@ -45,23 +45,23 @@
         android:textSize="@dimen/dashbaord_infoarea_textSize" />
 
     <!-- <include layout="@layout/view_help_ee_buttonboard"/> -->
-    
+
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/logo_helpme" 
+        android:layout_marginTop="@dimen/dashboard_logo_margin_top"
         android:contentDescription="@string/content_description"
-        android:layout_marginTop="@dimen/dashboard_logo_margin_top"/>
-    
+        android:src="@drawable/logo_helpme" />
+
     <ImageView
         android:id="@+id/iv_topcover"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:alpha="0.0"
-        android:scaleType="center"
         android:contentDescription="@string/content_description"
+        android:scaleType="center"
         android:src="@drawable/drawable_white" />
 
     <!-- <include layout="@layout/helpme_sponsor_slider"/> -->

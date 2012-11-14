@@ -7,10 +7,10 @@
 
     <com.indago.helpme.gui.dashboard.views.HelpERProgressView
         android:id="@+id/iv_helpme_help_er_indicator"
-        android:layout_width="290dp"
-        android:layout_height="128dp"
+        android:layout_width="@dimen/dashboard_indicator_layout_width"
+        android:layout_height="@dimen/dashboard_indicator_layout_height"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/help_er_indicator_margin_top"
+        android:layout_marginTop="@dimen/dashboard_indicator_margin_top"
         android:contentDescription="@string/content_description_help_ee_indicator_bars"
         android:scaleType="center" />
 
@@ -43,7 +43,7 @@
             android:id="@+id/btn_helpme_help_er_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal" />
     </FrameLayout>
 
     <com.indago.helpme.gui.dashboard.views.HelpERHintView
@@ -65,19 +65,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/logo_helpme" 
+        android:layout_marginTop="@dimen/dashboard_logo_margin_top"
         android:contentDescription="@string/content_description"
-        android:layout_marginTop="@dimen/dashboard_logo_margin_top"/>
+        android:src="@drawable/logo_helpme" />
 
     <ImageView
         android:id="@+id/iv_topcover"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:alpha="0.0"
-        android:scaleType="center"
         android:contentDescription="@string/content_description"
+        android:scaleType="center"
         android:src="@drawable/drawable_white" />
 
-    <include layout="@layout/slide_down_menu"/>
+    <include layout="@layout/slide_down_menu" />
 
 </FrameLayout>
