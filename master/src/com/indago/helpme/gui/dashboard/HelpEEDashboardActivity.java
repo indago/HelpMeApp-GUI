@@ -155,7 +155,8 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 										}
 										break;
 									case CALLCENTER_PRESSED:
-										(new MediaPlayerExitTimer()).execute(player);
+										mMP3Timer = new MediaPlayerExitTimer();
+										mMP3Timer.execute(player);
 
 										mStateMachine.setState(STATES.FINISHED);
 
@@ -421,8 +422,6 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 			try {
 				if(!dismissed && player != null) {
-					Thread.sleep(1000);
-
 					player.start();
 
 					while(!dismissed && player.isPlaying()) {
