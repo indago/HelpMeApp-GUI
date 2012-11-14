@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- HELP EE -->
+    <dimen name="help_ee_indicator_margin_top">278dp</dimen>
+
+    <!-- HELP ER -->
+    <dimen name="help_er_indicator_margin_top">278dp</dimen>
+
+    <!--  -->
+    <dimen name="generic_no_padding">0dp</dimen>
+    <dimen name="dashboard_logo_margin_top">28dp</dimen>
+    <dimen name="dashboard_btn_margin_top">238dp</dimen>
+	<dimen name="dashboard_infoarea_margin_top">90dp</dimen>
+	<dimen name="dashboard_infoarea_layout_width">250dp</dimen>
+    <dimen name="dashboard_infoarea_layout_height">114dp</dimen>
+    <dimen name="dashbaord_infoarea_textSize">6pt</dimen>
+
+</resources>

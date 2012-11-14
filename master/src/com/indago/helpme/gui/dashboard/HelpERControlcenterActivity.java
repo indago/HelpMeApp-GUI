@@ -11,9 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -57,6 +59,15 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 		setContentView(R.layout.activity_help_er_controlcenter);
 
 		mHandler = new Handler();
+
+		ImageView logo = (ImageView) findViewById(R.id.iv_helpme_logo);
+		logo.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 
 		initTabs();
 		initMaps();

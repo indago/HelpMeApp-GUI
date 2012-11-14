@@ -35,10 +35,10 @@ public class HelpERButtonView extends ImageButton implements IStateAwareView {
 
 	private void init(Context context) {
 		drawables[0] = context.getResources().getDrawable(R.drawable.btn_accept_decline_default);
-		drawables[1] = context.getResources().getDrawable(R.drawable.btn_accept_pressed);
-		drawables[2] = context.getResources().getDrawable(R.drawable.btn_decline_pressed);
+		drawables[1] = context.getResources().getDrawable(R.drawable.btn_accept_decline_accepted);
+		drawables[2] = context.getResources().getDrawable(R.drawable.btn_accept_decline_declined);
 
-		this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.btn_accept_decline));
+		this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.btn_accept_decline_default));
 
 	}
 

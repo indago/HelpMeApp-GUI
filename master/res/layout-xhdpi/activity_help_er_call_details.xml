@@ -14,7 +14,7 @@
         android:layout_marginTop="20dp"
         android:contentDescription="@string/content_description"
         android:scaleType="center"
-        android:src="@drawable/helpme_logo" />
+        android:src="@drawable/logo_helpme" />
 
     <include
         android:id="@+id/help_ee_details"

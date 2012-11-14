@@ -43,7 +43,7 @@ public class HelpEEButtonView extends ImageButton implements IStateAwareView {
 		drawables[6] = context.getResources().getDrawable(R.drawable.btn_call_pressed);
 		drawables[7] = context.getResources().getDrawable(R.drawable.btn_help_incomming);
 
-		this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.undefined));
+		this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.btn_sos_shielded));
 
 	}
 
