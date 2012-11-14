@@ -300,7 +300,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 		Dialog dialog = dialogBuilder.show();
 		dialog.setContentView(R.layout.dialog_help_er_in_range);
-//		dialog.setCanceledOnTouchOutside(false);
+		dialog.setCanceledOnTouchOutside(false);
 
 		ImageView imageView; TextView text; String string;Button button;
 		
