@@ -226,7 +226,6 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 			public void run() {
 				MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
 				HistoryManager.getInstance().stopTask();
-				mHandler.post(HistoryManager.getInstance().saveHistory(getApplicationContext()));
 
 				try {
 					showHelperInRangeDialog(context, task);
