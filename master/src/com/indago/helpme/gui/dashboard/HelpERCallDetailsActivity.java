@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -140,6 +141,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 	@Override
 	public void onBackPressed() {
+		if (show) {
+			return;
+		}
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// set title
@@ -168,7 +172,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		AlertDialog alertDialog = alertDialogBuilder.create();
 
 		// show it
-		alertDialog.show();
+		
+			alertDialog.show();
+		
 		//startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.HelpERControlcenterActivity.class), null);
 
 		//super.onBackPressed();
@@ -182,12 +188,12 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 			@Override
 			public void run() {
 				MapOverlayItem overlayitem = hashMapOverlayItem.get(userInterface.getId());
+				boolean zoom = false;
 				if(overlayitem != null) {
 					overlay.removeItem(overlayitem);
 				}
-				if (hashMapOverlayItem.size() <= 1 && overlayitem == null) {
-					setZoomLevel();
-				}
+				if (hashMapOverlayItem.size() <= 1 && overlayitem == null)
+					zoom = true;
 
 				if(userInterface.getId().equalsIgnoreCase(UserManager.getInstance().thisUser().getId())) {
 					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject() , ImageUtility.retrieveDrawable(getApplicationContext(), userInterface.getPicture()));
@@ -199,8 +205,15 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 				}
 
+
+					
+				
 				hashMapOverlayItem.put(userInterface.getId(), overlayitem);
 				overlay.addOverlay(overlayitem);
+				
+				if (zoom) {
+					setZoomLevel();
+				}
 				//				setZoomLevel();
 
 			}
@@ -217,20 +230,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				HistoryManager.getInstance().stopTask();
 				mHandler.post(HistoryManager.getInstance().saveHistory(getApplicationContext()));
 
-				AlertDialog.Builder dlgAlert = new AlertDialog.Builder(context);
-				dlgAlert.setTitle(getString(R.string.seeker_in_range_title));
-				dlgAlert.setMessage(getString(R.string.seeker_in_range_text));
-				dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Intent intent = new Intent(getApplicationContext(), HelpERControlcenterActivity.class);
-						startActivity(intent);
-						finish();
-					}
-
-				});
-				AlertDialog dialog = dlgAlert.create();
+				Dialog dialog = buildDialog(context);
 				try {
 					dialog.show();
 				} catch(Exception exception) {
@@ -299,4 +299,20 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		}
 	}
 
+	private Dialog buildDialog(Context context) {
+		AlertDialog.Builder dlgAlert = new AlertDialog.Builder(context);
+		dlgAlert.setTitle(getString(R.string.seeker_in_range_title));
+		dlgAlert.setMessage(getString(R.string.seeker_in_range_text));
+		dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent intent = new Intent(getApplicationContext(), HelpERControlcenterActivity.class);
+				startActivity(intent);
+				finish();
+			}
+
+		});
+		return dlgAlert.create();
+	}
 }
