@@ -2,15 +2,16 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <!-- <solid android:color="@color/helpme_grey_dark"/> -->
-    
-    <!-- <solid android:color="#FFBDBDBD"/> -->
-    
-    <gradient
+
+    <solid android:color="#FFA0A0A0" />
+
+    <!--
+         <gradient
         android:angle="270"
         android:endColor="#FFB0B0B0"
         android:startColor="#FFA0A0A0"
         android:type="linear" /> 
-
+    -->
     <stroke
         android:width="4dp"
         android:color="#ffffffff" />

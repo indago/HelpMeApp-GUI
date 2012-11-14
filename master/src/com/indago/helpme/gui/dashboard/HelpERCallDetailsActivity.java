@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -58,7 +57,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+								WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -105,7 +104,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 	protected void setDefaulAppearance() {
 		getWindow().getDecorView().getRootView()
-		.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+				.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}
 
 	private void initMaps(UserInterface userInterface) {
@@ -136,7 +135,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 	@Override
 	public void onBackPressed() {
-		if (show) {
+		if(show) {
 			return;
 		}
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -151,8 +150,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				HistoryManager.getInstance().getTask().setFailed();
 				HistoryManager.getInstance().stopTask();
 
-				startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
+				//startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
 
+				setResult(RESULT_CANCELED);
 				finish();
 			}
 		}).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -187,26 +187,23 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				if(overlayitem != null) {
 					overlay.removeItem(overlayitem);
 				}
-				if (hashMapOverlayItem.size() <= 1 && overlayitem == null)
+				if(hashMapOverlayItem.size() <= 1 && overlayitem == null)
 					zoom = true;
 
 				if(userInterface.getId().equalsIgnoreCase(UserManager.getInstance().thisUser().getId())) {
-					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject() , ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
+					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject(), ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
 					overlayitem.setMarker(mMapsPinGreen);
 
 				} else {// a help seeker
-					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null,userInterface.getJsonObject(), ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
+					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject(), ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
 					overlayitem.setMarker(mMapsPinOrange);
 
 				}
 
-
-
-
 				hashMapOverlayItem.put(userInterface.getId(), overlayitem);
 				overlay.addOverlay(overlayitem);
 
-				if (zoom) {
+				if(zoom) {
 					setZoomLevel();
 				}
 				//				setZoomLevel();
@@ -279,9 +276,9 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				minLongitude = Math.min(lon, minLongitude);
 			}
 			mapController.zoomToSpan(Math.abs(maxLatitude - minLatitude),
-					Math.abs(maxLongitude - minLongitude));
+										Math.abs(maxLongitude - minLongitude));
 			mapController.animateTo(new GeoPoint((maxLatitude + minLatitude) / 2,
-					(maxLongitude + minLongitude) / 2));
+													(maxLongitude + minLongitude) / 2));
 
 		} else {
 			String key = (String) keys[0];
@@ -302,10 +299,11 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		dialog.setContentView(R.layout.dialog_help_er_in_range);
 		dialog.setCanceledOnTouchOutside(false);
 
-		ImageView imageView; TextView text; String string;Button button;
-		
-		Drawable[] drawables = new Drawable[4];
-		
+		ImageView imageView;
+		TextView text;
+		String string;
+		Button button;
+
 		imageView = (ImageView) dialog.findViewById(R.id.dialog_helper_in_range_picture);
 		imageView.setImageDrawable(new LayerDrawable(ImageUtility.retrieveDrawables(context, userInterface.getPicture())));
 
@@ -316,14 +314,13 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 		text = (TextView) dialog.findViewById(R.id.dialog_helper_in_range_text);
 		string = context.getString(R.string.helper_in_range_text);
-		
-		if (userInterface.getGender().equalsIgnoreCase("female")) {
+
+		if(userInterface.getGender().equalsIgnoreCase("female")) {
 			string = string.replace("[gender]", "her");
-		}else {
+		} else {
 			string = string.replace("[gender]", "him");
 		}
 		text.setText(Html.fromHtml(string));
-
 
 		button = (Button) dialog.findViewById(R.id.dialog_helper_in_range_button);
 		button.setText("OK");
@@ -331,10 +328,8 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), HelpERControlcenterActivity.class);
-				startActivity(intent);
+				setResult(RESULT_OK);
 				finish();
-
 			}
 		});
 
