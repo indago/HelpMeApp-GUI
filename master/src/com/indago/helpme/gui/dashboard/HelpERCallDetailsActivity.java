@@ -142,10 +142,10 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// set title
-		alertDialogBuilder.setTitle("Warning!\nCanceling Support Offer!");
+		alertDialogBuilder.setTitle(Html.fromHtml(getResources().getString(R.string.dialog_calldetails_cancel_warning_title)));
 
 		// set dialog message
-		alertDialogBuilder.setMessage("Do you really want to cancel your current support offer?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		alertDialogBuilder.setMessage(Html.fromHtml(getResources().getString(R.string.dialog_calldetails_cancel_warning_text))).setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
 				HistoryManager.getInstance().getTask().setFailed();
@@ -153,7 +153,6 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 				startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
 
-//				setResult(RESULT_CANCELED);
 				finish();
 			}
 		}).setNegativeButton("No", new DialogInterface.OnClickListener() {

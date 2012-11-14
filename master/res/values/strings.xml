@@ -41,5 +41,8 @@
     <string name="content_description">no content description provided yet!</string>
     <string name="content_description_help_ee_indicator_bars">HelpMe - Seeking - Indicator Bars</string>
     <string name="content_description_help_ee_action_btn">HelpMe - Seeking - Action Button</string>
-
+    
+    <string name="dialog_calldetails_cancel_warning_title"><![CDATA[Warning!<br>Canceling Support Offer!]]></string>
+	<string name="dialog_calldetails_cancel_warning_text"><![CDATA[Do you really want to cancel your current support offer?]]></string>
+    
 </resources>
