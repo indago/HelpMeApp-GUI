@@ -78,6 +78,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	@Override
 	protected void onResume() {
 		mStateMachine.setState(STATES.SHIELDED);
+		orchestrator.addDrawManager(DRAWMANAGER_TYPE.SEEKER, this);
 		super.onResume();
 	}
 
@@ -163,8 +164,6 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 		});
 
 		orchestrator = MessageOrchestrator.getInstance();
-		orchestrator.addDrawManager(DRAWMANAGER_TYPE.SEEKER, this);
-
 		mPlayer = MediaPlayer.create(this, R.raw.callcenter);
 	}
 
@@ -269,6 +268,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 					@Override
 					public void run() {
+						mStateMachine.setState(STATES.FINISHED);
 						exit();
 					}
 				});
