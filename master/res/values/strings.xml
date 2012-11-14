@@ -34,8 +34,8 @@
     <string name="text_hint_providing_incomming_call"><![CDATA[<b>Incoming Help Call!</b><br>Slide top menu down for more information!]]></string>
     <string name="title_activity_help_er_controlcenter">HelpERControlcenterActivity</string>
     <string name="help_er_dashboard_countdown_from">60</string>
-    <string name="helper_in_range_title">You are in Range to <![CDATA[<font color="#00a9e8"><b>[Name] </b></font>]]></string>
-    <string name="helper_in_range_text">You should be able to spot [gender]</string>
+    <string name="helper_in_range_title"><![CDATA[You are in range to <font color="#00a9e8"><b>[Name] </b></font>]]></string>
+    <string name="helper_in_range_text">You should be able to spot [gender] now.</string>
 
     <!-- CONTENT DESCRIPTIONS -->
     <string name="content_description">no content description provided yet!</string>

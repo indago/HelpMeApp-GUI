@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
+    android:id="@+id/ll_help_er_controlcenter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="@dimen/logo_helpme_marginBottom"
+        android:layout_marginTop="@dimen/logo_helpme_marginTop"
         android:contentDescription="@string/content_description"
         android:scaleType="center"
         android:src="@drawable/logo_helpme" />
@@ -19,7 +19,7 @@
     <TabHost
         android:id="@+id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,20 +40,23 @@
                 <LinearLayout
                     android:id="@+id/ll_tab1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical" >
 
-                    <ListView
-                        android:id="@+id/lv_tab1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="1"
-                        android:divider="#00b5b5b5"
-                        android:dividerHeight="20dp"
-                        android:listSelector="@drawable/list_selector" >
-                    </ListView>
+                    <!--
+                    Andreas Api Key = 0ZUlfunSPJ2WLZxmS5WSo8WY5v6BgPXLoRR-CRw
+                    Martins Api Key = 0o1z9e5HX_ofamEfAeJtMsM3lpt6mugt-V0pu-g
+                    -->
+
+                    <com.google.android.maps.MapView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/mapview"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:apiKey="0o1z9e5HX_ofamEfAeJtMsM3lpt6mugt-V0pu-g"
+                        android:clickable="true" />
+                    
                 </LinearLayout>
 
                 <LinearLayout
@@ -65,12 +68,12 @@
                         android:id="@+id/lv_tab2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="@dimen/listview_layout_marginLeft"
+                        android:layout_marginRight="@dimen/listview_layout_marginRight"
+                        android:layout_marginTop="@dimen/listview_layout_marginTop"
                         android:layout_weight="1"
                         android:divider="#00b5b5b5"
-                        android:dividerHeight="20dp"
+                        android:dividerHeight="@dimen/listview_dividerHeight"
                         android:listSelector="@drawable/list_selector" >
                     </ListView>
                 </LinearLayout>

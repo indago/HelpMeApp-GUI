@@ -15,5 +15,15 @@
     <dimen name="dashboard_indicator_margin_top">250dp</dimen>
     <dimen name="dashboard_indicator_layout_width">264dp</dimen>
     <dimen name="dashboard_indicator_layout_height">116dp</dimen>
-    
+
+    <!--  -->
+    <dimen name="logo_helpme_marginBottom">15dp</dimen>
+    <dimen name="logo_helpme_marginTop">15dp</dimen>
+
+    <!--  -->
+    <dimen name="listview_layout_marginLeft">10dp</dimen>
+    <dimen name="listview_layout_marginRight">10dp</dimen>
+    <dimen name="listview_layout_marginTop">20dp</dimen>
+    <dimen name="listview_dividerHeight">20dp</dimen>
+        
 </resources>

@@ -65,9 +65,14 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 			@Override
 			public void onClick(View v) {
-				finish();
+				exit();
 			}
 		});
+
+		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
+		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
+
+		mHandler.post(HistoryManager.getInstance().loadHistory(getApplicationContext()));
 
 		initTabs();
 		initMaps();
@@ -142,26 +147,16 @@ public class HelpERControlcenterActivity extends MapActivity implements DrawMana
 
 	@Override
 	public void onBackPressed() {
-		finish();
+		exit();
 		super.onBackPressed();
 	}
 
-	@Override
-	protected void onResume() {
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
-
-		mHandler.post(HistoryManager.getInstance().loadHistory(getApplicationContext()));
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
+	private void exit() {
 		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
 
-		super.onPause();
+		finish();
 	}
 
 	@Override
