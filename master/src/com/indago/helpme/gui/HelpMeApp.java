@@ -119,7 +119,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 
 		initBackend();
 
-		ThreadPool.runTask(RabbitMQManager.getInstance().bindToService(this));
+		mHandler.post((RabbitMQManager.getInstance().bindToService(this)));
 		ThreadPool.runTask(UserManager.getInstance().readUserChoice(getApplicationContext()));
 //		ThreadPool.runTask(RabbitMQManager.getInstance().)
 		//ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
