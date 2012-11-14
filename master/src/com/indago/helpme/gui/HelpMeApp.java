@@ -125,8 +125,12 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 
 		initBackend();
 
+<<<<<<< .merge_file_7veSlR
 		ThreadPool.runTask(RabbitMQManager.getInstance().bindToService(this));
 		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
+=======
+		mHandler.post((RabbitMQManager.getInstance().bindToService(this)));
+>>>>>>> .merge_file_fjG2e6
 		ThreadPool.runTask(UserManager.getInstance().readUserChoice(getApplicationContext()));
 	}
 
