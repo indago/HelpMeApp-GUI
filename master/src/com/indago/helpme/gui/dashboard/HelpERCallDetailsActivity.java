@@ -135,52 +135,54 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 	@Override
 	public void onBackPressed() {
 		if(show) {
-			return;
+			startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
+			finish();
+		} else {
+
+			final Dialog dialog = new Dialog(this);
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.setContentView(R.layout.dialog_call_dismiss);
+
+			TextView text;
+			String string;
+			Button button;
+
+			text = (TextView) dialog.findViewById(R.id.dialog_title);
+			string = getResources().getString(R.string.dialog_call_dismiss_title);
+			text.setText(Html.fromHtml(string));
+
+			text = (TextView) dialog.findViewById(R.id.dialog_text);
+			string = getResources().getString(R.string.dialog_call_dismiss_text);
+			text.setText(Html.fromHtml(string));
+
+			button = (Button) dialog.findViewById(R.id.dialog_button_no);
+			button.setText("No");
+			button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+
+			button = (Button) dialog.findViewById(R.id.dialog_button_yes);
+			button.setText("Yes");
+			button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
+					HistoryManager.getInstance().getTask().setFailed();
+					HistoryManager.getInstance().stopTask();
+
+					startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
+
+					finish();
+				}
+			});
+
+			dialog.show();
 		}
-
-		final Dialog dialog = new Dialog(this);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.dialog_call_dismiss);
-
-		TextView text;
-		String string;
-		Button button;
-
-		text = (TextView) dialog.findViewById(R.id.dialog_title);
-		string = getResources().getString(R.string.dialog_call_dismiss_title);
-		text.setText(Html.fromHtml(string));
-
-		text = (TextView) dialog.findViewById(R.id.dialog_text);
-		string = getResources().getString(R.string.dialog_call_dismiss_text);
-		text.setText(Html.fromHtml(string));
-
-		button = (Button) dialog.findViewById(R.id.dialog_button_no);
-		button.setText("No");
-		button.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-
-		button = (Button) dialog.findViewById(R.id.dialog_button_yes);
-		button.setText("Yes");
-		button.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
-				HistoryManager.getInstance().getTask().setFailed();
-				HistoryManager.getInstance().stopTask();
-
-				startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
-
-				finish();
-			}
-		});
-
-		dialog.show();
 
 	}
 
@@ -303,6 +305,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		final Dialog dialog = new Dialog(context);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_help_er_in_range);
+		dialog.setCancelable(false);
 
 		ImageView imageView;
 		TextView text;
@@ -334,7 +337,6 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
-				show = false;
 				finish();
 			}
 		});

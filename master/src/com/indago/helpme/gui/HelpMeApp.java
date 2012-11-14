@@ -47,6 +47,8 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		setContentView(R.layout.activity_helpmeapp);
 
 		mHandler = new Handler();
+
+		showDialog();
 	}
 
 	private void initBackend() {
@@ -111,8 +113,6 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		showDialog();
 
 		Intent intent = new Intent(this, RabbitMQService.class);
 		startService(intent);
@@ -198,6 +198,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		final Dialog dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_select_your_role);
+		dialog.setCancelable(false);
 
 		TextView text;
 		String string;
