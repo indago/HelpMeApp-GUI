@@ -3,10 +3,8 @@ package com.indago.helpme.gui.dashboard;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -139,14 +137,39 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		if(show) {
 			return;
 		}
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-		// set title
-		alertDialogBuilder.setTitle(Html.fromHtml(getResources().getString(R.string.dialog_calldetails_cancel_warning_title)));
+		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.dialog_call_dismiss);
 
-		// set dialog message
-		alertDialogBuilder.setMessage(Html.fromHtml(getResources().getString(R.string.dialog_calldetails_cancel_warning_text))).setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
+		TextView text;
+		String string;
+		Button button;
+
+		text = (TextView) dialog.findViewById(R.id.dialog_title);
+		string = getResources().getString(R.string.dialog_call_dismiss_title);
+		text.setText(Html.fromHtml(string));
+
+		text = (TextView) dialog.findViewById(R.id.dialog_text);
+		string = getResources().getString(R.string.dialog_call_dismiss_text);
+		text.setText(Html.fromHtml(string));
+
+		button = (Button) dialog.findViewById(R.id.dialog_button_no);
+		button.setText("No");
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		button = (Button) dialog.findViewById(R.id.dialog_button_yes);
+		button.setText("Yes");
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
 				MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
 				HistoryManager.getInstance().getTask().setFailed();
 				HistoryManager.getInstance().stopTask();
@@ -155,26 +178,10 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 
 				finish();
 			}
-		}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, just close
-				// the dialog box and do nothing
-				dialog.cancel();
-			}
 		});
 
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
+		dialog.show();
 
-		// show it
-
-		alertDialog.show();
-
-		//startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.HelpERControlcenterActivity.class), null);
-
-		//super.onBackPressed();
-
-		//finish();
 	}
 
 	private Runnable addMarker(final UserInterface userInterface) {
@@ -223,7 +230,7 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 				mHandler.post(HistoryManager.getInstance().saveHistory(getApplicationContext()));
 
 				try {
-					buildDialog(context, task).show();
+					showHelperInRangeDialog(context, task);
 				} catch(Exception exception) {
 					Log.e(LOGTAG, exception.toString());
 				}
@@ -290,10 +297,11 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 		}
 	}
 
-	private Dialog buildDialog(Context context, Task task) {
+	private void showHelperInRangeDialog(Context context, Task task) {
 		UserInterface userInterface = task.getUser();
 
 		final Dialog dialog = new Dialog(context);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_help_er_in_range);
 
 		ImageView imageView;
@@ -331,6 +339,6 @@ public class HelpERCallDetailsActivity extends MapActivity implements DrawManage
 			}
 		});
 
-		return dialog;
+		dialog.show();
 	}
 }

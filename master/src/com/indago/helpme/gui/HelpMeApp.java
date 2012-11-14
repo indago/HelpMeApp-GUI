@@ -2,15 +2,21 @@ package com.indago.helpme.gui;
 
 import java.util.ArrayList;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 import com.android.helpme.demo.interfaces.DrawManagerInterface;
 import com.android.helpme.demo.interfaces.UserInterface;
@@ -106,6 +112,8 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 	protected void onResume() {
 		super.onResume();
 
+		showDialog();
+
 		Intent intent = new Intent(this, RabbitMQService.class);
 		startService(intent);
 
@@ -183,5 +191,36 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 			}
 		};
 
+	}
+
+	private void showDialog() {
+
+		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.dialog_select_your_role);
+
+		TextView text;
+		String string;
+		Button button;
+
+		text = (TextView) dialog.findViewById(R.id.dialog_title);
+		string = getResources().getString(R.string.dialog_select_your_role_title);
+		text.setText(Html.fromHtml(string));
+
+		text = (TextView) dialog.findViewById(R.id.dialog_text);
+		string = getResources().getString(R.string.dialog_select_your_role_text);
+		text.setText(Html.fromHtml(string));
+
+		button = (Button) dialog.findViewById(R.id.dialog_button_ok);
+		button.setText("OK");
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
 	}
 }
