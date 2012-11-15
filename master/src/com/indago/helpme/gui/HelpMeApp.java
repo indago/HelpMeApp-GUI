@@ -10,6 +10,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -141,12 +142,28 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 	@Override
 	protected void onDestroy() {
 		mHandler.post((RabbitMQManager.getInstance().unbindFromService(getApplicationContext())));
+
 		android.os.Process.killProcess(android.os.Process.myPid());
 		Editor editor = getSharedPreferences("clear_cache", Context.MODE_PRIVATE).edit();
 		editor.clear();
 		editor.commit();
 		trimCache(this);
+		clearApplicationData();
 		super.onDestroy();
+	}
+
+	public void clearApplicationData() {
+		File cache = getCacheDir();
+		File appDir = new File(cache.getParent());
+		if(appDir.exists()) {
+			String[] children = appDir.list();
+			for(String s : children) {
+				if(!s.equals("lib")) {
+					deleteDir(new File(appDir, s));
+					Log.i("TAG", "**************** File /data/data/APP_PACKAGE/" + s + " DELETED *******************");
+				}
+			}
+		}
 	}
 
 	public static void trimCache(Context context) {
