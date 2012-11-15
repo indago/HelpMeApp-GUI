@@ -139,7 +139,7 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 							case MotionEvent.ACTION_UP:
 
 								if(mStateMachine.getState() == STATES.ACCEPTED) {
-									Toast.makeText(getApplicationContext(), "Thank you for providing help!", Toast.LENGTH_LONG).show();
+									Toast.makeText(getApplicationContext(), "Thank you for your choice!", Toast.LENGTH_LONG).show();
 
 									mCDT.dismiss();
 									HistoryManager.getInstance().startNewTask(mUser);
