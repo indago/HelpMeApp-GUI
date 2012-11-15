@@ -22,7 +22,7 @@
             <Button
                 android:id="@+id/btn_handle"
                 android:layout_width="fill_parent"
-                android:layout_height="54dp"
+                android:layout_height="60dp"
                 android:background="@drawable/sponsor_area_handle"
                 android:rotation="180"
                 android:text="Drag down for more information!"

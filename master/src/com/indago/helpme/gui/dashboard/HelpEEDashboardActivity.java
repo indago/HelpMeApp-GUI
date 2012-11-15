@@ -120,7 +120,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 			@Override
 			public void onClick(View v) {
 				if(mStateMachine.getState() == STATES.HELP_INCOMMING) {
-					mStateMachine.nextState();
+					mStateMachine.setState(STATES.HELP_ARRIVED);
 				}
 			}
 		});
