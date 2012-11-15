@@ -42,6 +42,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 	private MessageOrchestrator orchestrator;
 	private ImageView mTopCover;
+	private ImageView mHelpMeLogo;
 	private Animator mFadeIn;
 	private Animator mFadeOut;
 	private HelpEEProgressView mProgressBars;
@@ -70,6 +71,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 		mProgressBars = (HelpEEProgressView) findViewById(R.id.iv_help_ee_indicator);
 		mHintViewer = (HelpEEHintView) findViewById(R.id.tv_help_ee_infoarea);
 		mButton = (HelpEEButtonView) findViewById(R.id.btn_help_ee_button);
+		mHelpMeLogo = (ImageView) findViewById(R.id.iv_logo);
 
 		mStateMachine = HelpEEStateMachine.getInstance();
 		mStateMachine.addOne(mButton);
@@ -113,6 +115,16 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	private void init() {
 		final MediaPlayer player = MediaPlayer.create(this, R.raw.callcenter);
 
+		mHelpMeLogo.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(mStateMachine.getState() == STATES.HELP_INCOMMING) {
+					mStateMachine.nextState();
+				}
+			}
+		});
+
 		mButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -137,7 +149,6 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 					switch(event.getAction()) {
 						case MotionEvent.ACTION_DOWN:
 							if(mStateMachine.getState() != STATES.LOCKED &&
-									mStateMachine.getState() != STATES.HELP_INCOMMING &&
 									mStateMachine.getState() != STATES.HELP_ARRIVED &&
 									mStateMachine.getState() != STATES.FINISHED) {
 

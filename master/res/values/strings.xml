@@ -12,7 +12,7 @@
     <string name="welcome">Welcome to the inDAgo HelpMe App.</string>
 
     <!-- SEEKING HELP STRINGS -->
-    <string name="text_hint_help_ee_press_green_button"><![CDATA[<b>NEED HELP?</b><br/>Press the <font color="#FF324A00"><b>SOS</b></font> button!]]></string>
+    <string name="text_hint_help_ee_press_green_button"><![CDATA[<b>NEED HELP?</b><br/>Press the <font color="#83a30f"><b>SOS</b></font> button!]]></string>
     <string name="text_hint_help_ee_press_yellow_button"><![CDATA[Press the <br><font color="yellow"><b>SOS</b></font> button again!]]></string>
     <string name="text_hint_help_ee_press_red_button"><![CDATA[Press the <br><font color="red"><b>SOS</b></font> button once more!]]></string>
     <string name="text_hint_help_ee_press_red_button_pressed"><![CDATA[<font color="red"><b>OK!</b></font>]]></string>
@@ -24,7 +24,7 @@
     <string name="help_ee_details_age"><![CDATA[<font color="#00a9e8"><b>Age: </b></font>]]></string>
     <string name="help_ee_details_gender"><![CDATA[<font color="#00a9e8"><b>Gender: </b></font>]]></string>
     <string name="help_is_underway"><![CDATA[<b>HELP IS ON THE WAY!</b>]]></string>
-    <string name="help_has_arrived"><![CDATA[<b>HELP HAS ARRIVED!</b><br>Press the <font color="#FF324A00">Smiley</font> button!<br>End of Demo]]></string>
+    <string name="help_has_arrived"><![CDATA[<b>HELP HAS ARRIVED!</b><br>Press the <font color="#83a30f"><b>Smiley</b></font> button!<br>End of Demo]]></string>
 
     <!-- PROVIDIN HELP STRINGS -->
     <string name="help_er_controlcenter_tab_history">HISTORY</string>
