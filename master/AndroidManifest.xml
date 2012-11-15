@@ -71,13 +71,6 @@
         </activity>
 
         <uses-library android:name="com.google.android.maps" />
-
-        <service
-            android:name="com.android.helpme.demo.rabbitMQ.RabbitMQService"
-            android:enabled="true"
-            android:exported="true"
-            android:process=":remote" >
-        </service>
     </application>
 
 </manifest>
