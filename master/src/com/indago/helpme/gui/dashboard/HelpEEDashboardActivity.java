@@ -137,6 +137,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 					switch(event.getAction()) {
 						case MotionEvent.ACTION_DOWN:
 							if(mStateMachine.getState() != STATES.LOCKED &&
+									mStateMachine.getState() != STATES.HELP_INCOMMING &&
 									mStateMachine.getState() != STATES.HELP_ARRIVED &&
 									mStateMachine.getState() != STATES.FINISHED) {
 

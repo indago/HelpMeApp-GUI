@@ -1,9 +1,12 @@
 package com.indago.helpme.gui;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -58,7 +61,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		startService(intent);
 		mHandler.post((RabbitMQManager.getInstance().bindToService(this)));
 		showDialog();
-		
+
 	}
 
 	private void initBackend() {
@@ -127,7 +130,6 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		initBackend();
 
 		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
-		
 
 		ThreadPool.runTask(UserManager.getInstance().readUserChoice(getApplicationContext()));
 	}
@@ -138,10 +140,46 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.LOGIN);
 		super.onPause();
 	}
-	
+
+	@Override
 	protected void onDestroy() {
 		mHandler.post((RabbitMQManager.getInstance().unbindFromService(getApplicationContext())));
+		android.os.Process.killProcess(android.os.Process.myPid());
+		Editor editor = getSharedPreferences("clear_cache", Context.MODE_PRIVATE).edit();
+		editor.clear();
+		editor.commit();
+		trimCache(this);
 		super.onDestroy();
+	}
+
+	public static void trimCache(Context context) {
+		try {
+			File dir = context.getCacheDir();
+			if(dir != null && dir.isDirectory()) {
+				deleteDir(dir);
+
+			}
+		} catch(Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public static boolean deleteDir(File dir) {
+		if(dir != null && dir.isDirectory()) {
+			String[] children = dir.list();
+			for(int i = 0; i < children.length; i++) {
+				boolean success = deleteDir(new File(dir, children[i]));
+				if(!success) {
+					return false;
+				}
+			}
+		}
+
+		// <uses-permission
+		// android:name="android.permission.CLEAR_APP_CACHE"></uses-permission>
+		// The directory is now empty so delete it
+
+		return dir.delete();
 	}
 
 	@Override
