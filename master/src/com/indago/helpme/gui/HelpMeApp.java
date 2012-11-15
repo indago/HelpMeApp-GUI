@@ -201,9 +201,14 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		if(object instanceof User) {
 			User user = (User) object;
 			if(user.isHelper()) {
-				mHandler.post(startHelpERActivity());
+				if (UserManager.getInstance().isUserSet()) {
+					mHandler.post(startHelpERActivity());
+				}
+
 			} else {
-				mHandler.post(startHelpEEActivity());
+				if (UserManager.getInstance().isUserSet()) {
+					mHandler.post(startHelpEEActivity());
+				}
 			}
 		} else if(object instanceof ArrayList<?>) {
 			ArrayList<User> tmpList = (ArrayList<User>) object;
@@ -240,7 +245,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 			@Override
 			public void run() {
 				startActivity(new Intent(getBaseContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
-//				startActivity(new Intent(getBaseContext(), com.indago.helpme.gui2.HistoryActivity.class));
+				//				startActivity(new Intent(getBaseContext(), com.indago.helpme.gui2.HistoryActivity.class));
 			}
 		};
 

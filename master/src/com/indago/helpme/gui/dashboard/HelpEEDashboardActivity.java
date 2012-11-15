@@ -303,6 +303,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 
 					@Override
 					public void run() {
+						mStateMachine.setState(STATES.HELP_INCOMMING);
 						mStateMachine.setState(STATES.HELP_ARRIVED);
 //						exit();
 					}
