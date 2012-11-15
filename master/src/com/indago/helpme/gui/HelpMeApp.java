@@ -56,10 +56,6 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		setContentView(R.layout.activity_helpmeapp);
 
 		mHandler = new Handler();
-
-		Intent intent = new Intent(this, RabbitMQService.class);
-		startService(intent);
-		mHandler.post((RabbitMQManager.getInstance().bindToService(this)));
 		showDialog();
 
 	}
@@ -76,6 +72,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		mOrchestrator.listenToMessageSystem(UserManager.getInstance());
 		mOrchestrator.listenToMessageSystem(HistoryManager.getInstance());
 
+		ThreadPool.runTask((RabbitMQManager.getInstance().bindToService(this)));
 	}
 
 	private void initTabs(ArrayList<UserInterface> helpERList, ArrayList<UserInterface> helpEEList) {
