@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TVDPI -->
+
+
+    <!--  -->
+    <dimen name="generic_no_padding">0dp</dimen>
+    <dimen name="dashboard_logo_margin_top">264dp</dimen>
+    <dimen name="dashboard_btn_margin_top">497dp</dimen>
+    <dimen name="dashboard_infoarea_margin_top">330dp</dimen>
+    <dimen name="dashboard_infoarea_layout_width">260dp</dimen>
+    <dimen name="dashboard_infoarea_layout_height">130dp</dimen>
+    <dimen name="dashbaord_infoarea_textSize">10pt</dimen>
+    
+    <dimen name="dashboard_indicator_margin_top">464dp</dimen>
+    <dimen name="dashboard_indicator_layout_width">290dp</dimen>
+    <dimen name="dashboard_indicator_layout_height">128dp</dimen>
+
+    <!--  -->
+    <dimen name="logo_helpme_marginBottom">15dp</dimen>
+    <dimen name="logo_helpme_marginTop">15dp</dimen>
+
+    <!--  -->
+    <dimen name="listview_layout_marginLeft">10dp</dimen>
+    <dimen name="listview_layout_marginRight">10dp</dimen>
+    <dimen name="listview_layout_marginTop">20dp</dimen>
+    <dimen name="listview_dividerHeight">20dp</dimen>
+
+</resources>
