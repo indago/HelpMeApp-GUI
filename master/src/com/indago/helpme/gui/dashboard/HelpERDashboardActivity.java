@@ -91,14 +91,19 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 			name.setText(Html.fromHtml(name.getText() + " " + mUser.getName()));
 			TextView age = (TextView) vg.findViewById(R.id.tv_help_ee_age);
 			age.setText(Html.fromHtml(age.getText() + " " + mUser.getAge()));
+
 			TextView gender = (TextView) vg.findViewById(R.id.tv_help_ee_gender);
-			gender.setText(Html.fromHtml(gender.getText() + " " + mUser.getGender()));
+			if (mUser.getGender().equalsIgnoreCase("female")) {
+				gender.setText(Html.fromHtml(gender.getText() + " " + getString(R.string.female)));
+			}else {
+				gender.setText(Html.fromHtml(gender.getText() + " " + getString(R.string.male)));
+			}
 
 			ImageView picture = (ImageView) vg.findViewById(R.id.iv_help_ee_picture);
 			picture.setImageDrawable(new LayerDrawable(ImageUtility.retrieveDrawables(getApplicationContext(), mUser.getPicture())));
 
 			Button handle = (Button) ((LinearLayout) mSlidingDrawer.getHandle()).getChildAt(0);
-			handle.setText("DRAG DOWN FOR MORE INFORMATION!");
+			handle.setText(getString(R.string.help_er_dashboard_information_text));
 			handle.setTextSize(14f);
 
 			/*
@@ -139,7 +144,7 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 							case MotionEvent.ACTION_UP:
 
 								if(mStateMachine.getState() == STATES.ACCEPTED) {
-									Toast.makeText(getApplicationContext(), "Thank you for your choice!", Toast.LENGTH_LONG).show();
+									Toast.makeText(getApplicationContext(), getString(R.string.help_er_dashboard_thank_you), Toast.LENGTH_LONG).show();
 
 									mCDT.dismiss();
 									HistoryManager.getInstance().startNewTask(mUser);
@@ -148,7 +153,7 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 									startActivity(intent);
 									finish();
 								} else if(mStateMachine.getState() == STATES.DECLINED) {
-									Toast.makeText(getApplicationContext(), "Too bad! Maybe next time!", Toast.LENGTH_LONG).show();
+									Toast.makeText(getApplicationContext(), getString(R.string.help_er_dashboard_to_bad), Toast.LENGTH_LONG).show();
 									declineCall();
 								} else {
 									Toast.makeText(getApplicationContext(), "UNDEFINED!", Toast.LENGTH_LONG).show();
@@ -252,7 +257,7 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			if(!dismissed) {
-				Toast.makeText(getApplicationContext(), "Time's up!", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.help_er_dashboard_time), Toast.LENGTH_LONG).show();
 
 				declineCall();
 			}

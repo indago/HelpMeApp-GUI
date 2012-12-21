@@ -113,7 +113,7 @@ public class HelpERControlcenterActivity extends ATemplateMapActivity implements
 						startActivity(new Intent(Intent.ACTION_VIEW, uri));
 						break;
 					case 1:
-						uri = Uri.parse(" http://www.uid.com/de/home.html");
+						uri = Uri.parse("http://www.uid.com/de/home.html");
 						startActivity(new Intent(Intent.ACTION_VIEW, uri));
 						break;
 					case 2:

@@ -3,6 +3,10 @@
     <!-- Generic -->
     <string name="app_name">inDAgo HelpMe</string>
     <string name="default_content_description">default content</string>
+    <string name="female">weiblich</string>
+    <string name="male">männlich</string>
+    <string name="him">ihn</string>
+    <string name="her">sie</string>
 
     <!-- Tabs -->
     <string name="tab_helper">Helfer</string>
@@ -32,8 +36,13 @@
     <string name="text_hint_providing_incomming_call"><![CDATA[<b>HILFERUF EMPFANGEN</b><br>Bitte oberes Menü für mehr Infos runterziehen!]]></string>
     <string name="title_activity_help_er_controlcenter">HelpERControlcenterActivity</string>
     <string name="help_er_dashboard_countdown_from">60</string>
+    <string name="help_er_dashboard_information_text">Für mehr Informationen hier ziehen!</string>
+    <string name="help_er_dashboard_thank_you">Danke, dass Sie helfen!</string>
+    <string name="help_er_dashboard_to_bad">Schade, vielleicht nächstes Mal!</string>
+    <string name="help_er_dashboard_time">Zeit ist abgelaufen!</string>
     <string name="helper_in_range_title"><![CDATA[Sie sind in der Nähe von <font color="#00a9e8"><b>[Name] </b></font>]]></string>
     <string name="helper_in_range_text">Sie sollten [gender] nun sehen können.</string>
+    
 
     <!-- CONTENT DESCRIPTIONS -->
     <string name="content_description">no content description provided yet!</string>

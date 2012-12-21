@@ -74,7 +74,12 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 		TextView age = (TextView) findViewById(R.id.tv_help_ee_age);
 		age.setText(Html.fromHtml(age.getText() + " " + mUser.getAge()));
 		TextView gender = (TextView) findViewById(R.id.tv_help_ee_gender);
-		gender.setText(Html.fromHtml(gender.getText() + " " + mUser.getGender()));
+		if (mUser.getGender().equalsIgnoreCase("female")) {
+			gender.setText(Html.fromHtml(gender.getText() + " " + getString(R.string.female)));
+		}else {
+			gender.setText(Html.fromHtml(gender.getText() + " " + getString(R.string.male)));
+		}
+		
 
 		ImageView picture = (ImageView) findViewById(R.id.iv_help_ee_picture);
 		picture.setImageDrawable(new LayerDrawable(ImageUtility.retrieveDrawables(getApplicationContext(), mUser.getPicture())));
@@ -320,9 +325,9 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 		string = context.getString(R.string.helper_in_range_text);
 
 		if(userInterface.getGender().equalsIgnoreCase("female")) {
-			string = string.replace("[gender]", "her");
+			string = string.replace("[gender]", context.getString(R.string.her));
 		} else {
-			string = string.replace("[gender]", "him");
+			string = string.replace("[gender]", context.getString(R.string.him));
 		}
 		text.setText(Html.fromHtml(string));
 
