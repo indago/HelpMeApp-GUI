@@ -116,7 +116,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	}
 
 	private void init() {
-		final MediaPlayer player = MediaPlayer.create(this, R.raw.callcenter);
+		final MediaPlayer player = MediaPlayer.create(this, R.raw.callcenter_deutsch);
 
 		mHelpMeLogo.setOnClickListener(new OnClickListener() {
 
