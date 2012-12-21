@@ -86,6 +86,9 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	protected void onResume() {
 		mStateMachine.setState(STATES.SHIELDED);
 		orchestrator.addDrawManager(DRAWMANAGER_TYPE.SEEKER, this);
+		if (!(UserManager.getInstance().isUserSet()) && UserManager.getInstance().thisUser() == null) {
+			exit();
+		}
 		super.onResume();
 	}
 

@@ -5,31 +5,31 @@
     <string name="default_content_description">default content</string>
 
     <!-- Tabs -->
-    <string name="tab_helper">Assistent</string>
-    <string name="tab_helpee">Suchender</string>
+    <string name="tab_helper">Helfer</string>
+    <string name="tab_helpee">Hilfesuchender</string>
     <string name="title_activity_log_in">HelpMe App</string>
     <string name="title_activity_help_me_button">HelpMeButtonActivity</string>
     <string name="welcome">Willkommen zur inDAgo Assistenz-App</string>
 
     <!-- SEEKING HELP STRINGS -->
-    <string name="text_hint_help_ee_press_green_button"><![CDATA[<b>Assistenz benötigt?</b><br/>Bitte <font color="#83a30f"><b>SOS</b></font> Knopf drücken!]]></string>
+    <string name="text_hint_help_ee_press_green_button"><![CDATA[<b>Hilfe benötigt?</b><br/>Bitte <font color="#83a30f"><b>SOS</b></font> drücken!]]></string>
     <string name="text_hint_help_ee_press_yellow_button"><![CDATA[Bitte <br><font color="yellow"><b>SOS</b></font> erneut drücken!]]></string>
     <string name="text_hint_help_ee_press_red_button"><![CDATA[Bitte <br><font color="red"><b>SOS</b></font> ein letztes Mal drücken!]]></string>
     <string name="text_hint_help_ee_press_red_button_pressed"><![CDATA[<font color="red"><b>OK!</b></font>]]></string>
-    <string name="text_hint_help_ee_press_call_button"><![CDATA[<b>KEIN ASSISTENT GEFUNDEN!</b><br>Bitte den <br><font color="yellow"><b>Knopf</b></font> drücken, um mit dem Call-Center verbunden zu werden!]]></string>
-    <string name="text_hint_help_ee_wait_for_helper"><![CDATA[<b>ASSISTENT WIRD GESUCHT</b><br/>Bitte gedulden Sie sich...]]></string>
+    <string name="text_hint_help_ee_press_call_button"><![CDATA[<b>KEIN HELFER GEFUNDEN!</b><br>Bitte Button drücken,<br>um mit dem Call-Center verbunden zu werden!]]></string>
+    <string name="text_hint_help_ee_wait_for_helper"><![CDATA[<b>HELFER WIRD GESUCHT</b><br/>Bitte gedulden Sie sich...]]></string>
     <string name="text_hint_help_ee_wait_for_callcenter"><![CDATA[<b><font color="red">RUFE CALL-CENTER AN</font></b><br/>Bitte nicht auflegen!]]></string>
     <string name="text_hint_help_ee_talking_to_callcenter"><![CDATA[<b><font color="#00a9e8">CALL-CENTER AM APPARAT</font></b>]]></string>
     <string name="help_ee_details_name"><![CDATA[<font color="#00a9e8"><b>Name: </b></font>]]></string>
     <string name="help_ee_details_age"><![CDATA[<font color="#00a9e8"><b>Alter: </b></font>]]></string>
     <string name="help_ee_details_gender"><![CDATA[<font color="#00a9e8"><b>Geschlecht: </b></font>]]></string>
-    <string name="help_is_underway"><![CDATA[<b>ASSISTENT IST AUF DEM WEG!</b>]]></string>
-    <string name="help_has_arrived"><![CDATA[<b>ASSISTENT ANWESEND!</b><br>Bitte den <font color="#83a30f"><b>Smiley</b></font> Knopf drücken!<br>Ende der Demo!]]></string>
+    <string name="help_is_underway"><![CDATA[<b>HELFER IST AUF DEM WEG!</b>]]></string>
+    <string name="help_has_arrived"><![CDATA[<b>HELFER ANWESEND!</b><br>Bitte den <font color="#83a30f"><b>Smiley</b></font> Knopf drücken!<br>Ende der Demo!]]></string>
 
     <!-- PROVIDIN HELP STRINGS -->
-    <string name="help_er_controlcenter_tab_history">VERLAUF</string>
+    <string name="help_er_controlcenter_tab_history">STATISIK</string>
     <string name="help_er_controlcenter_tab_about">INFO</string>
-    <string name="text_hint_providing_incomming_call"><![CDATA[<b>ASSISTENZRUF EMPFANGEN</b><br>Bitte oberes Menü für mehr Infos runterziehen!]]></string>
+    <string name="text_hint_providing_incomming_call"><![CDATA[<b>HILFERUF EMPFANGEN</b><br>Bitte oberes Menü für mehr Infos runterziehen!]]></string>
     <string name="title_activity_help_er_controlcenter">HelpERControlcenterActivity</string>
     <string name="help_er_dashboard_countdown_from">60</string>
     <string name="helper_in_range_title"><![CDATA[Sie sind in der Nähe von <font color="#00a9e8"><b>[Name] </b></font>]]></string>
@@ -44,7 +44,7 @@
     <string name="dialog_calldetails_cancel_warning_title"><![CDATA[<font color="#ffffffff">WARNUNG!<br>Sie verwerfen Ihr Assistenzangebot!</font>]]></string>
     <string name="dialog_calldetails_cancel_warning_text"><![CDATA[<font color="#ffffffff">Wollen Sie wirklich Ihr Assistenzangebot verwerfen?</font>]]></string>
     <string name="dialog_select_your_role_title"><![CDATA[<font color="#ffffffff">Willkommen<br>zur <b><font color="#00a9e8">!HELP</font>ME</b> App!</font>]]></string>
-    <string name="dialog_select_your_role_text"><![CDATA[<font color="#ffffffff">Bitte wählen Sie Ihre Rolle, entweder als Assistent oder als assistenzsuchende Person.</font>]]></string>
+    <string name="dialog_select_your_role_text"><![CDATA[<font color="#ffffffff"><center>Dies ist ein Prototyp für den Hans-Sauer-Preis 2012 &quot;alterfinden&quot;.</center><br><br>Bitte wählen Sie Ihre Rolle, entweder als Helfer oder als Hilfesuchender.</font>]]></string>
     <string name="dialog_call_dismiss_title"><![CDATA[<font color="red"><b>WARNUNG:</b></font>]]></string>
     <string name="dialog_call_dismiss_text"><![CDATA[<font color="#ffffffff">Sie sind im Begriff den Ruf abzubrechen!<br>Sind Sie sicher?</font>]]></string>
 

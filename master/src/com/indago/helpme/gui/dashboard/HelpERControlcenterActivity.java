@@ -3,6 +3,7 @@ package com.indago.helpme.gui.dashboard;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom2.Element;
 import org.json.simple.JSONObject;
 
 import android.content.Intent;
@@ -112,7 +113,7 @@ public class HelpERControlcenterActivity extends ATemplateMapActivity implements
 						startActivity(new Intent(Intent.ACTION_VIEW, uri));
 						break;
 					case 1:
-						uri = Uri.parse("http://www.uid.com/en/home.html");
+						uri = Uri.parse(" http://www.uid.com/de/home.html");
 						startActivity(new Intent(Intent.ACTION_VIEW, uri));
 						break;
 					case 2:
@@ -188,8 +189,8 @@ public class HelpERControlcenterActivity extends ATemplateMapActivity implements
 			/*
 			 * Add History
 			 */
-			if(((ArrayList<?>) object).get(0) instanceof JSONObject) {
-				ArrayList<JSONObject> arrayList = (ArrayList<JSONObject>) object;
+			if(( !((ArrayList<?>) object).isEmpty()) && ((ArrayList<?>) object).get(0) instanceof Element) {
+				ArrayList<Element> arrayList = (ArrayList<Element>) object;
 				mHandler.post(addMarker(arrayList));
 			}
 		}
@@ -209,18 +210,18 @@ public class HelpERControlcenterActivity extends ATemplateMapActivity implements
 		};
 	}
 
-	private Runnable addMarker(final ArrayList<JSONObject> jsonObjects) {
+	private Runnable addMarker(final ArrayList<Element> elements) {
 		return new Runnable() {
 			@Override
 			public void run() {
-				for(JSONObject jsonObject : jsonObjects) {
-					Position position = new Position((JSONObject) jsonObject.get(Task.START_POSITION));
-					User user = new User((JSONObject) jsonObject.get(Task.USER));
+				for(Element el : elements) {
+					Position position = new Position(el.getChild(Task.START_POSITION));
+					User user = new User(el.getChild(Task.USER));
 					String snippet = new String();
 
 					snippet = "HISTORY SNIPPED";
 
-					HistoryOverlayItem overlayitem = new HistoryOverlayItem(position.getGeoPoint(), user.getId(), snippet, jsonObject);
+					HistoryOverlayItem overlayitem = new HistoryOverlayItem(position.getGeoPoint(), user.getId(), snippet, el);
 					overlay.addOverlay(overlayitem);
 				}
 				setZoomLevel();

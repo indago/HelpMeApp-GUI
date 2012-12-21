@@ -197,11 +197,11 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 					zoom = true;
 
 				if(userInterface.getId().equalsIgnoreCase(UserManager.getInstance().thisUser().getId())) {
-					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject(), ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
+					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getElement(), ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
 					overlayitem.setMarker(mMapsPinGreen);
 
 				} else {// a help seeker
-					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getJsonObject(), ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
+					overlayitem = new MapOverlayItem(userInterface.getGeoPoint(), userInterface.getId(), null, userInterface.getElement(), ImageUtility.retrieveDrawables(getApplicationContext(), userInterface.getPicture()));
 					overlayitem.setMarker(mMapsPinOrange);
 
 				}

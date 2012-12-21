@@ -111,7 +111,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		UserInterface user = (UserInterface) parent.getItemAtPosition(position);
 
 		if(user != null) {
-			ThreadPool.runTask(UserManager.getInstance().setThisUser(user, getApplicationContext()));
+			(UserManager.getInstance().setThisUser(user, getApplicationContext())).run();
 
 			if(user.isHelper()) {
 				mHandler.post(startHelpERActivity());
