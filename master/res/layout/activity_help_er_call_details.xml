@@ -30,7 +30,7 @@
         android:id="@+id/mapview"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:apiKey="0ZUlfunSPJ2WLZxmS5WSo8WY5v6BgPXLoRR-CRw"
+        android:apiKey="0o1z9e5HX_ofamEfAeJtMsM3lpt6mugt-V0pu-g"
         android:clickable="true" />
 
 </LinearLayout>

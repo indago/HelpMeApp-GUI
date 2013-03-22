@@ -53,7 +53,7 @@
     <string name="dialog_calldetails_cancel_warning_title"><![CDATA[<font color="#ffffffff">WARNUNG!<br>Sie verwerfen Ihr Assistenzangebot!</font>]]></string>
     <string name="dialog_calldetails_cancel_warning_text"><![CDATA[<font color="#ffffffff">Wollen Sie wirklich Ihr Assistenzangebot verwerfen?</font>]]></string>
     <string name="dialog_select_your_role_title"><![CDATA[<font color="#ffffffff">Willkommen<br>zur <b><font color="#00a9e8">!HELP</font>ME</b> App!</font>]]></string>
-    <string name="dialog_select_your_role_text"><![CDATA[<font color="#ffffffff"><center>Dies ist ein Prototyp für den Hans-Sauer-Preis 2012 &quot;alterfinden&quot;.</center><br><br>Bitte wählen Sie Ihre Rolle, entweder als Helfer oder als Hilfesuchender.</font>]]></string>
+    <string name="dialog_select_your_role_text"><![CDATA[<font color="#ffffffff"><center>Bitte wählen Sie Ihre Rolle, entweder als Helfer oder als Hilfesuchender.</font>]]></string>
     <string name="dialog_call_dismiss_title"><![CDATA[<font color="red"><b>WARNUNG:</b></font>]]></string>
     <string name="dialog_call_dismiss_text"><![CDATA[<font color="#ffffffff">Sie sind im Begriff den Ruf abzubrechen!<br>Sind Sie sicher?</font>]]></string>
 
