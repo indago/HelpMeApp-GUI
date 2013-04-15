@@ -15,11 +15,13 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
-import com.android.helpme.demo.interfaces.DrawManagerInterface;
-import com.android.helpme.demo.manager.HistoryManager;
-import com.android.helpme.demo.manager.MessageOrchestrator;
+import com.android.helpme.demo.eventmanagement.eventListeners.TaskEventListener;
+import com.android.helpme.demo.eventmanagement.events.TaskEvent;
+import com.android.helpme.demo.interfaces.TaskInterface;
+import com.android.helpme.demo.manager.TaskManager;
 import com.android.helpme.demo.manager.UserManager;
 import com.android.helpme.demo.utils.Task;
+import com.android.helpme.demo.utils.TaskState;
 import com.android.helpme.demo.utils.ThreadPool;
 import com.android.helpme.demo.utils.User;
 import com.indago.helpme.R;
@@ -35,12 +37,11 @@ import com.indago.helpme.gui.dashboard.views.HelpEEProgressView;
  * @author martinmajewski
  * 
  */
-public class HelpEEDashboardActivity extends ATemplateActivity implements DrawManagerInterface {
+public class HelpEEDashboardActivity extends ATemplateActivity implements TaskEventListener {
 	private static final String LOGTAG = HelpEEDashboardActivity.class.getSimpleName();
 
 	private Handler mHandler;
 
-	private MessageOrchestrator orchestrator;
 	private ImageView mTopCover;
 	private ImageView mHelpMeLogo;
 	private Animator mFadeIn;
@@ -85,7 +86,6 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	@Override
 	protected void onResume() {
 		mStateMachine.setState(STATES.SHIELDED);
-		orchestrator.addDrawManager(DRAWMANAGER_TYPE.SEEKER, this);
 		if (!(UserManager.getInstance().isUserSet()) && UserManager.getInstance().thisUser() == null) {
 			exit();
 		}
@@ -100,6 +100,7 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 	}
 
 	private void exit() {
+		TaskManager.getInstance().removeTaskEventListener(this);
 
 		if(mIdleTimer != null) {
 			mIdleTimer.dismiss();
@@ -109,13 +110,13 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 			mMP3Timer.dismiss();
 		}
 
-		orchestrator.removeDrawManager(DRAWMANAGER_TYPE.SEEKER);
-		orchestrator.removeDrawManager(DRAWMANAGER_TYPE.HELPERCOMMING);
-		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
+		UserManager.getInstance().deleteUserChoice(getApplicationContext());
 		finish();
 	}
 
 	private void init() {
+		TaskManager.getInstance().addTaskEventListener(this);
+		
 		final MediaPlayer player = MediaPlayer.create(this, R.raw.callcenter_deutsch);
 
 		mHelpMeLogo.setOnClickListener(new OnClickListener() {
@@ -150,51 +151,51 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 			public boolean onTouch(View v, MotionEvent event) {
 				if(v instanceof HelpEEButtonView) {
 					switch(event.getAction()) {
-						case MotionEvent.ACTION_DOWN:
-							if(mStateMachine.getState() != STATES.LOCKED &&
-									mStateMachine.getState() != STATES.HELP_ARRIVED &&
-									mStateMachine.getState() != STATES.FINISHED) {
+					case MotionEvent.ACTION_DOWN:
+						if(mStateMachine.getState() != STATES.LOCKED &&
+						mStateMachine.getState() != STATES.HELP_ARRIVED &&
+						mStateMachine.getState() != STATES.FINISHED) {
 
-								mStateMachine.nextState();
+							mStateMachine.nextState();
 
-								switch((STATES) mStateMachine.getState()) {
-									case PART_SHIELDED:
-										if(mIdleTimer == null) {
-											mIdleTimer = new ResetTimer();
-											mIdleTimer.execute(6000L);
-										}
-										break;
-									case PRESSED:
-										if(mIdleTimer != null) {
-											mIdleTimer.dismiss();
-										}
-										break;
-									case CALLCENTER_PRESSED:
-										mMP3Timer = new MediaPlayerExitTimer();
-										mMP3Timer.execute(player);
-
-										mStateMachine.setState(STATES.FINISHED);
-
-										break;
-									default:
-										if(mIdleTimer != null) {
-											mIdleTimer.resetTime();
-										}
-										break;
+							switch((STATES) mStateMachine.getState()) {
+							case PART_SHIELDED:
+								if(mIdleTimer == null) {
+									mIdleTimer = new ResetTimer();
+									mIdleTimer.execute(6000L);
 								}
+								break;
+							case PRESSED:
+								if(mIdleTimer != null) {
+									mIdleTimer.dismiss();
+								}
+								break;
+							case CALLCENTER_PRESSED:
+								mMP3Timer = new MediaPlayerExitTimer();
+								mMP3Timer.execute(player);
 
-								mVibrator.vibrate(15);
+								mStateMachine.setState(STATES.FINISHED);
 
+								break;
+							default:
+								if(mIdleTimer != null) {
+									mIdleTimer.resetTime();
+								}
+								break;
 							}
 
-							break;
-						case MotionEvent.ACTION_UP:
-							if(mStateMachine.getState() == STATES.PRESSED) {
-								ButtonStateChangeDelay mBRTimer = new ButtonStateChangeDelay();
-								mBRTimer.execute(STATES.LOCKED);
-								HistoryManager.getInstance().startNewTask();
-							}
-							break;
+							mVibrator.vibrate(15);
+
+						}
+
+						break;
+					case MotionEvent.ACTION_UP:
+						if(mStateMachine.getState() == STATES.PRESSED) {
+							ButtonStateChangeDelay mBRTimer = new ButtonStateChangeDelay();
+							mBRTimer.execute(STATES.LOCKED);
+							TaskManager.getInstance().startNewTask();
+						}
+						break;
 					}
 
 				}
@@ -202,8 +203,6 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 				return false;
 			}
 		});
-
-		orchestrator = MessageOrchestrator.getInstance();
 	}
 
 	private void reset() {
@@ -244,9 +243,6 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 				}
 			});
 
-			orchestrator.removeDrawManager(DRAWMANAGER_TYPE.SEEKER);
-			orchestrator.addDrawManager(DRAWMANAGER_TYPE.HELPERCOMMING, this);
-
 			long[] pattern = { 0, 25, 75, 25, 75, 25, 75, 25 };
 			mVibrator.vibrate(pattern, -1);
 			mFadeIn.start();
@@ -275,8 +271,42 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 			mFadeIn.start();
 		}
 	}
-
 	@Override
+	public void getTaskEvent(TaskEvent taskEvent) {
+		TaskInterface task = taskEvent.getTask();
+		if (task.getState() == TaskState.RUNNING) {
+			if(mStateMachine.getState() != STATES.HELP_INCOMMING) {
+				mHandler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						toHelpIncomming();
+					}
+				});
+			}
+		}
+		else if(task.getState() == TaskState.FAILED){
+			mHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					toCallCenter();
+				}
+			});
+		}else if(task.getState() == TaskState.SUCCESSFUL){
+			mHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					mStateMachine.setState(STATES.HELP_ARRIVED);
+					//						exit();
+				}
+			});
+		}
+		
+	}
+
+	/*	@Override
 	public void drawThis(Object object) {
 		if(object instanceof User) {
 			if(mStateMachine.getState() != STATES.HELP_INCOMMING) {
@@ -301,18 +331,17 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 				});
 			}
 			else {
-				orchestrator.removeDrawManager(DRAWMANAGER_TYPE.HELPERCOMMING);
 				mHandler.post(new Runnable() {
 
 					@Override
 					public void run() {
 						mStateMachine.setState(STATES.HELP_ARRIVED);
-//						exit();
+						//						exit();
 					}
 				});
 			}
 		}
-	}
+	}*/
 
 	class ResetTimer extends AsyncTask<Long, Void, Void> {
 
@@ -466,5 +495,4 @@ public class HelpEEDashboardActivity extends ATemplateActivity implements DrawMa
 			exit();
 		}
 	}
-
 }

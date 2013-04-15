@@ -20,10 +20,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.helpme.demo.interfaces.DrawManagerInterface;
+import com.android.helpme.demo.eventmanagement.eventListeners.TaskEventListener;
+import com.android.helpme.demo.eventmanagement.events.TaskEvent;
+import com.android.helpme.demo.interfaces.TaskInterface;
 import com.android.helpme.demo.interfaces.UserInterface;
-import com.android.helpme.demo.manager.HistoryManager;
-import com.android.helpme.demo.manager.MessageOrchestrator;
+import com.android.helpme.demo.manager.TaskManager;
 import com.android.helpme.demo.manager.UserManager;
 import com.android.helpme.demo.overlay.MapItemnizedOverlay;
 import com.android.helpme.demo.overlay.MapOverlayItem;
@@ -43,7 +44,7 @@ import com.indago.helpme.gui.util.ImageUtility;
  * @author martinmajewski
  * 
  */
-public class HelpERCallDetailsActivity extends ATemplateMapActivity implements DrawManagerInterface {
+public class HelpERCallDetailsActivity extends ATemplateMapActivity implements TaskEventListener {
 	private static final String LOGTAG = HelpERCallDetailsActivity.class.getSimpleName();
 	protected static DisplayMetrics metrics = new DisplayMetrics();
 	private Handler mHandler;
@@ -93,7 +94,7 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 
 		mHandler = new Handler();
 		initMaps(mUser);
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.MAP, this);
+		TaskManager.getInstance().addTaskEventListener(this);
 	}
 
 	@Override
@@ -137,6 +138,7 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 	@Override
 	public void onBackPressed() {
 		if(show) {
+			TaskManager.getInstance().removeTaskEventListener(this);
 			startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
 			finish();
 		} else {
@@ -173,9 +175,8 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 
 				@Override
 				public void onClick(View v) {
-					MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
-					HistoryManager.getInstance().getTask().setFailed();
-					HistoryManager.getInstance().stopTask();
+					TaskManager.getInstance().getTask().setFailed();
+					TaskManager.getInstance().stopTask();
 
 					startActivity(new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERControlcenterActivity.class));
 
@@ -229,8 +230,7 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 
 			@Override
 			public void run() {
-				MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.MAP);
-				HistoryManager.getInstance().stopTask();
+				TaskManager.getInstance().stopTask();
 
 				try {
 					showHelperInRangeDialog(context, task);
@@ -240,20 +240,27 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 			}
 		};
 	}
-
+	
 	@Override
-	public void drawThis(Object object) {
-		if(object instanceof User) {
-			User user = (User) object;
-			mHandler.post(addMarker(user));
-		} else if(object instanceof Task) {
-			Task task = (Task) object;
-			if(!show) {
-				mHandler.post(showInRangeMessageBox(this, task));
-			}
-		}
-
+	public void getTaskEvent(TaskEvent taskEvent) {
+		TaskInterface taskInterface = taskEvent.getTask();
+		mHandler.post(addMarker(taskInterface.getHelpee()));
+		mHandler.post(addMarker(taskInterface.getHelper()));
 	}
+
+//	@Override
+//	public void drawThis(Object object) {
+//		if(object instanceof User) {
+//			User user = (User) object;
+//			mHandler.post(addMarker(user));
+//		} else if(object instanceof Task) {
+//			Task task = (Task) object;
+//			if(!show) {
+//				mHandler.post(showInRangeMessageBox(this, task));
+//			}
+//		}
+//
+//	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -301,7 +308,7 @@ public class HelpERCallDetailsActivity extends ATemplateMapActivity implements D
 	}
 
 	private void showHelperInRangeDialog(Context context, Task task) {
-		UserInterface userInterface = task.getUser();
+		UserInterface userInterface = task.getHelpee();
 
 		final Dialog dialog = new Dialog(context);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

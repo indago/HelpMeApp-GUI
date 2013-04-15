@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.Element;
-import org.json.simple.JSONObject;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -20,15 +19,14 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-import com.android.helpme.demo.interfaces.DrawManagerInterface;
-import com.android.helpme.demo.interfaces.UserInterface;
-import com.android.helpme.demo.manager.HistoryManager;
-import com.android.helpme.demo.manager.MessageOrchestrator;
+import com.android.helpme.demo.eventmanagement.eventListeners.TaskEventListener;
+import com.android.helpme.demo.eventmanagement.events.TaskEvent;
+import com.android.helpme.demo.interfaces.TaskInterface;
+import com.android.helpme.demo.manager.TaskManager;
 import com.android.helpme.demo.manager.UserManager;
 import com.android.helpme.demo.overlay.HistoryItemnizedOverlay;
 import com.android.helpme.demo.overlay.HistoryOverlayItem;
 import com.android.helpme.demo.utils.Task;
-import com.android.helpme.demo.utils.ThreadPool;
 import com.android.helpme.demo.utils.User;
 import com.android.helpme.demo.utils.position.Position;
 import com.google.android.maps.GeoPoint;
@@ -45,7 +43,7 @@ import com.indago.helpme.gui.list.AboutListAdapter;
  * @author martinmajewski
  * 
  */
-public class HelpERControlcenterActivity extends ATemplateMapActivity implements DrawManagerInterface {
+public class HelpERControlcenterActivity extends ATemplateMapActivity implements TaskEventListener {
 
 	private Handler mHandler;
 	private TabHost mTabHost;
@@ -145,18 +143,12 @@ public class HelpERControlcenterActivity extends ATemplateMapActivity implements
 
 	@Override
 	protected void onResume() {
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HELPER, this);
-		MessageOrchestrator.getInstance().addDrawManager(DRAWMANAGER_TYPE.HISTORY, this);
-
-		mHandler.post(HistoryManager.getInstance().loadHistory(getApplicationContext()));
+		ArrayList<Element> arrayList = TaskManager.getInstance().loadHistory(getApplicationContext());
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
-
-		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
-		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
 		super.onPause();
 	}
 
@@ -171,39 +163,42 @@ public class HelpERControlcenterActivity extends ATemplateMapActivity implements
 	}
 
 	private void exit() {
-		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
+		UserManager.getInstance().deleteUserChoice(getApplicationContext());
 		finish();
 	}
-
 	@Override
-	public void drawThis(final Object object) {
-		if(object instanceof User) {
-			/*
-			 * Start Call Details Activity
-			 */
-			MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HISTORY);
-			MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.HELPER);
-
-			mHandler.post(startHelpERDashboard((UserInterface) object));
-		} else if(object instanceof ArrayList<?>) {
-			/*
-			 * Add History
-			 */
-			if(( !((ArrayList<?>) object).isEmpty()) && ((ArrayList<?>) object).get(0) instanceof Element) {
-				ArrayList<Element> arrayList = (ArrayList<Element>) object;
-				mHandler.post(addMarker(arrayList));
-			}
-		}
+	public void getTaskEvent(TaskEvent taskEvent) {
+		TaskInterface taskInterface = taskEvent.getTask();
+		mHandler.post(startHelpERDashboard(taskInterface));
 	}
 
-	private Runnable startHelpERDashboard(final UserInterface user) {
+//	@Override
+//	public void drawThis(final Object object) {
+//		if(object instanceof User) {
+//			/*
+//			 * Start Call Details Activity
+//			 */
+//
+//			mHandler.post(startHelpERDashboard((UserInterface) object));
+//		} else if(object instanceof ArrayList<?>) {
+//			/*
+//			 * Add History
+//			 */
+//			if(( !((ArrayList<?>) object).isEmpty()) && ((ArrayList<?>) object).get(0) instanceof Element) {
+//				ArrayList<Element> arrayList = (ArrayList<Element>) object;
+//				mHandler.post(addMarker(arrayList));
+//			}
+//		}
+//	}
+
+	private Runnable startHelpERDashboard(final TaskInterface task) {
 		return new Runnable() {
 
 			@Override
 			public void run() {
 //				HistoryManager.getInstance().startNewTask(user);
 				Intent intent = new Intent(getApplicationContext(), HelpERDashboardActivity.class);
-				intent.putExtra("USER_ID", user.getId());
+//				intent.putExtra("USER_ID", task.getId());
 
 				startActivityForResult(intent, 0);
 			}

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.helpme.demo.interfaces.UserInterface;
-import com.android.helpme.demo.manager.HistoryManager;
+import com.android.helpme.demo.manager.TaskManager;
 import com.android.helpme.demo.manager.UserManager;
 import com.indago.helpme.R;
 import com.indago.helpme.gui.ATemplateActivity;
@@ -147,7 +147,7 @@ public class HelpERDashboardActivity extends ATemplateActivity {
 									Toast.makeText(getApplicationContext(), getString(R.string.help_er_dashboard_thank_you), Toast.LENGTH_LONG).show();
 
 									mCDT.dismiss();
-									HistoryManager.getInstance().startNewTask(mUser);
+									TaskManager.getInstance().startNewTask(mUser);
 									Intent intent = new Intent(getApplicationContext(), com.indago.helpme.gui.dashboard.HelpERCallDetailsActivity.class);
 									intent.putExtra("USER_ID", mUser.getId());
 									startActivity(intent);

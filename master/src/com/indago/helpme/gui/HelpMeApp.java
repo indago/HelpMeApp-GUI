@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -22,12 +23,10 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-import com.android.helpme.demo.interfaces.DrawManagerInterface;
 import com.android.helpme.demo.interfaces.UserInterface;
-import com.android.helpme.demo.manager.HistoryManager;
-import com.android.helpme.demo.manager.MessageOrchestrator;
+import com.android.helpme.demo.manager.NetworkManager;
 import com.android.helpme.demo.manager.PositionManager;
-import com.android.helpme.demo.manager.RabbitMQManager;
+import com.android.helpme.demo.manager.TaskManager;
 import com.android.helpme.demo.manager.UserManager;
 import com.android.helpme.demo.rabbitMQ.RabbitMQService;
 import com.android.helpme.demo.utils.ThreadPool;
@@ -41,15 +40,15 @@ import com.indago.helpme.gui.list.LogInListAdapter;
  * @author andreaswieland
  * 
  */
-public class HelpMeApp extends ATemplateActivity implements OnItemClickListener, DrawManagerInterface {
+public class HelpMeApp extends ATemplateActivity implements OnItemClickListener {
 	private static final String LOGTAG = HelpMeApp.class.getSimpleName();
 
 	private TabHost mTabHost;
 	private Handler mHandler;
-	private MessageOrchestrator mOrchestrator;
 
 	private ListView lvHelpER;
 	private ListView lvHelpEE;
+	private Dialog dialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,23 +56,55 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		setContentView(R.layout.activity_helpmeapp);
 
 		mHandler = new Handler();
+		dialog = new Dialog(this);
 		showDialog();
 
 	}
 
 	private void initBackend() {
-		ThreadPool.getThreadPool(10);
+//		ThreadPool.getThreadPool(10);
 
-		mOrchestrator = MessageOrchestrator.getInstance();
-		mOrchestrator.addDrawManager(DRAWMANAGER_TYPE.SWITCHER, this);
-		mOrchestrator.addDrawManager(DRAWMANAGER_TYPE.LOGIN, this);
+		if (NetworkManager.getInstance().init(this)) {
+			mHandler.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					Button button = (Button) dialog.findViewById(R.id.dialog_button_ok);
+					button.setText("Ok");
+					button.setEnabled(true);
+				}
+			});
+			
+		}
+		PositionManager.getInstance(getApplicationContext(),mHandler);
+		UserManager.getInstance().init();
+		TaskManager.getInstance().init();
 
-		mOrchestrator.listenToMessageSystem(RabbitMQManager.getInstance());
-		mOrchestrator.listenToMessageSystem(PositionManager.getInstance(this));
-		mOrchestrator.listenToMessageSystem(UserManager.getInstance());
-		mOrchestrator.listenToMessageSystem(HistoryManager.getInstance());
+		
+		getUsers();
+	}
+	
+	private void getUsers(){
+		ArrayList<User> tmpList = (ArrayList<User>) UserManager.getInstance().readUsersFromProperty(getApplicationContext());
+		if (tmpList.size() == 0) {
+			return;
+		}
+		final ArrayList<UserInterface> helpERList = new ArrayList<UserInterface>();
+		final ArrayList<UserInterface> helpEEList = new ArrayList<UserInterface>();
+		for(UserInterface user : tmpList) {
+			if(user.isHelper()) {
+				helpERList.add(user);
+			} else {
+				helpEEList.add(user);
+			}
+		}
 
-		ThreadPool.runTask((RabbitMQManager.getInstance().bindToService(this)));
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				initTabs(helpERList, helpEEList);
+			}
+		});
 	}
 
 	private void initTabs(ArrayList<UserInterface> helpERList, ArrayList<UserInterface> helpEEList) {
@@ -111,7 +142,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		UserInterface user = (UserInterface) parent.getItemAtPosition(position);
 
 		if(user != null) {
-			(UserManager.getInstance().setThisUser(user, getApplicationContext())).run();
+			UserManager.getInstance().setThisUser(user, getApplicationContext());
 
 			if(user.isHelper()) {
 				mHandler.post(startHelpERActivity());
@@ -125,24 +156,29 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 	protected void onResume() {
 		super.onResume();
 
-		initBackend();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				initBackend();
+			}
+		}).start();
+		
 
-		ThreadPool.runTask(UserManager.getInstance().deleteUserChoice(getApplicationContext()));
+		UserManager.getInstance().deleteUserChoice(getApplicationContext());
 
-		ThreadPool.runTask(UserManager.getInstance().readUserChoice(getApplicationContext()));
+		UserManager.getInstance().readUserChoice(getApplicationContext());
 	}
 
 	@Override
 	protected void onPause() {
-		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.SWITCHER);
-		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.LOGIN);
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		mHandler.post((RabbitMQManager.getInstance().unbindFromService(getApplicationContext())));
-
+		NetworkManager.getInstance().unbindFromService(getApplicationContext());
+		
 		android.os.Process.killProcess(android.os.Process.myPid());
 		Editor editor = getSharedPreferences("clear_cache", Context.MODE_PRIVATE).edit();
 		editor.clear();
@@ -196,42 +232,40 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		return dir.delete();
 	}
 
-	@Override
-	public void drawThis(Object object) {
-		if(object instanceof User) {
-			User user = (User) object;
-			if(user.isHelper()) {
-				mHandler.post(startHelpERActivity());
-			} else {
-				mHandler.post(startHelpEEActivity());
-			}
-		} else if(object instanceof ArrayList<?>) {
-			ArrayList<User> tmpList = (ArrayList<User>) object;
-			final ArrayList<UserInterface> helpERList = new ArrayList<UserInterface>();
-			final ArrayList<UserInterface> helpEEList = new ArrayList<UserInterface>();
-			for(UserInterface user : tmpList) {
-				if(user.isHelper()) {
-					helpERList.add(user);
-				} else {
-					helpEEList.add(user);
-				}
-			}
-
-			mHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					initTabs(helpERList, helpEEList);
-				}
-			});
-		} else if(object == null) {
-			ThreadPool.runTask(UserManager.getInstance().readUserFromProperty(getApplicationContext()));
-		}
-
-	}
+//	@Override
+//	public void drawThis(Object object) {
+//		if(object instanceof User) {
+//			User user = (User) object;
+//			if(user.isHelper()) {
+//				mHandler.post(startHelpERActivity());
+//			} else {
+//				mHandler.post(startHelpEEActivity());
+//			}
+//		} else if(object instanceof ArrayList<?>) {
+//			ArrayList<User> tmpList = (ArrayList<User>) object;
+//			final ArrayList<UserInterface> helpERList = new ArrayList<UserInterface>();
+//			final ArrayList<UserInterface> helpEEList = new ArrayList<UserInterface>();
+//			for(UserInterface user : tmpList) {
+//				if(user.isHelper()) {
+//					helpERList.add(user);
+//				} else {
+//					helpEEList.add(user);
+//				}
+//			}
+//
+//			mHandler.post(new Runnable() {
+//				@Override
+//				public void run() {
+//					initTabs(helpERList, helpEEList);
+//				}
+//			});
+//		} else if(object == null) {
+//			UserManager.getInstance().readUsersFromProperty(getApplicationContext());
+//		}
+//
+//	}
 
 	private void cleanUp() {
-		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.SWITCHER);
-		MessageOrchestrator.getInstance().removeDrawManager(DRAWMANAGER_TYPE.LOGIN);
 	}
 
 	private Runnable startHelpERActivity() {
@@ -259,7 +293,7 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 
 	private void showDialog() {
 
-		final Dialog dialog = new Dialog(this);
+		
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_select_your_role);
 		dialog.setCancelable(false);
@@ -277,8 +311,10 @@ public class HelpMeApp extends ATemplateActivity implements OnItemClickListener,
 		text.setText(Html.fromHtml(string));
 
 		button = (Button) dialog.findViewById(R.id.dialog_button_ok);
-		button.setText("OK");
+		button.setText("Not Connected");
+		button.setEnabled(false);
 		button.setOnClickListener(new OnClickListener() {
+			
 
 			@Override
 			public void onClick(View v) {
